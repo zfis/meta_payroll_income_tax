@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="view_investment_alw" model="ir.ui.view">
+            <field name="name">investment.alw.data.form</field>
+            <field name="model">investment.alw.data</field>
+            <field name="arch" type="xml">
+                <form string="Investment Allowance Declaration">
+                    <group col="4" colspan="6">
+                        <field name="fiscal_year"/>
+                        <newline/>
+                        <field name="emp" invisible="True"/>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_investment_alw" model="ir.actions.act_window">
+            <field name="name">Investment Allowance Declaration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">investment.alw.data</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="investment_alw_value" model="ir.values">
+            <field name="model_id" ref="hr.model_hr_employee" />
+            <field name="name">Investment Allowance Declaration</field>
+            <field name="key2">client_print_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_investment_alw'))" />
+            <field name="key">action</field>
+            <field name="model">hr.employee</field>
+        </record>
+
+</odoo>

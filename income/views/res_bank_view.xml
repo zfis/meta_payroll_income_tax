@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_partner_bank_form_new">
+            <field name="name">res.partner.bank.form</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="base.view_partner_bank_form"/>
+            <field name="arch" type="xml">            
+                <xpath expr="//group[1]" position="replace">
+                    <group>
+                        <field name="acc_number"/>
+                        <field name="bank_id"/>
+                        <field name="branch_title"/>
+                        <field name="swift_code"/>        
+                        <!-- <field name="branch_name"/>
+                        <field name="routing_num"/> -->
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

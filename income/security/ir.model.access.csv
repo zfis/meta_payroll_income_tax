@@ -1,0 +1,40 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_manager_hr_contribution_register","hr.contribution.register","hr_payroll.model_hr_contribution_register","income.group_income_manager",1,1,1,1
+"access_manager_hr_salary_rule_category","hr.salary.rule.category","hr_payroll.model_hr_salary_rule_category","income.group_income_manager",1,1,1,1
+"access_hr_payslip","hr.payslip","hr_payroll.model_hr_payslip","income.group_income_manager",1,1,1,1
+"access_hr_payslip_line","hr.payslip.line","hr_payroll.model_hr_payslip_line","income.group_income_manager",1,1,1,1
+"access_hr_payslip_input_user","hr.payslip.input.user","hr_payroll.model_hr_payslip_input","income.group_income_manager",1,1,1,1
+"access_hr_payslip_worked_days ","hr.payslip.worked_days","hr_payroll.model_hr_payslip_worked_days","income.group_income_manager",1,1,1,1
+"access_hr_payslip_run","hr.payslip.run","hr_payroll.model_hr_payslip_run","income.group_income_manager",1,1,1,1
+"access_hr_rule_input","hr.rule.input","hr_payroll.model_hr_rule_input","income.group_income_manager",1,1,1,1
+"access_hr_salary_rule_user","hr.salary.rule.user","hr_payroll.model_hr_salary_rule","income.group_income_manager",1,1,1,1
+"access_tax_challan","tax.challan","income.model_tax_challan","income.group_income_manager",1,1,1,1
+"access_tax_challan_line","tax.challan.line","income.model_tax_challan_line","income.group_income_manager",1,1,1,1
+"access_payroll_tracker","payroll.tracker","income.model_payroll_tracker","income.group_income_manager",1,1,1,1
+"access_hr_payroll_config_settings","hr.payroll.config.settings","hr_payroll.model_hr_payroll_config_settings","income.group_income_manager",1,1,1,1
+"access_hr_employee ","hr.employee","hr.model_hr_employee","income.group_income_manager",1,1,1,1
+"access_hr_contract","hr.contract","hr_contract.model_hr_contract","income.group_income_manager",1,1,1,1
+"access_hr_department","hr.department","hr.model_hr_department","income.group_income_manager",1,1,1,1
+"access_hr_job","hr.job","hr.model_hr_job","income.group_income_manager",1,1,1,1
+"access_hr_employee_category","hr.employee.category","hr.model_hr_employee_category","income.group_income_manager",1,1,1,1
+"access_hr_contract_type","hr.contract.type","hr_contract.model_hr_contract_type","income.group_income_manager",1,1,1,1
+"access_hr_salary_rule","hr.salary.rule","hr_payroll.model_hr_salary_rule","income.group_income_manager",1,1,1,1
+"access_hr_salary_rule_category","hr.salary.rule.category","hr_payroll.model_hr_salary_rule_category","income.group_income_manager",1,1,1,1
+"access_hr_paroll_structure","hr.payroll.structure","hr_payroll.model_hr_payroll_structure","income.group_income_manager",1,1,1,1
+"access_mail_payslip_wizard","mail.payslip.wizard","mail_payslip.model_mail_payslip_wizard","income.group_income_manager",1,1,1,1
+"access_res_company","res.company","base.model_res_company","income.group_income_manager",1,1,1,1
+"access_hr_payroll_structure","hr.payroll.structure","hr_payroll.model_hr_payroll_structure","income.group_income_manager",1,1,1,1
+"access_hr_payroll_structure","hr.payroll.structure","hr_payroll.model_hr_payroll_structure","income.group_income_officer",1,1,1,1
+"access_hr_contribution_register","hr.contribution.register","hr_payroll.model_hr_contribution_register","income.group_income_officer",1,1,1,1
+"access_hr_salary_rule_category","hr.salary.rule.category","hr_payroll.model_hr_salary_rule_category","income.group_income_officer",1,1,1,1
+"access_hr_payslip","hr.payslip","hr_payroll.model_hr_payslip","income.group_income_officer",1,1,1,0
+"access_hr_payslip_line","hr.payslip.line","hr_payroll.model_hr_payslip_line","income.group_income_officer",1,1,1,1
+"access_hr_payslip_input_user","hr.payslip.input.user","hr_payroll.model_hr_payslip_input","income.group_income_officer",1,1,1,1
+"access_hr_payslip_worked_days ","hr.payslip.worked_days","hr_payroll.model_hr_payslip_worked_days","income.group_income_officer",1,1,1,1
+"access_tax_challan","tax.challan","income.model_tax_challan","income.group_income_officer",1,1,1,0
+"access_tax_challan_line","tax.challan.line","income.model_tax_challan_line","income.group_income_officer",1,1,1,0
+"access_hr_payslip_run","hr.payslip.run","hr_payroll.model_hr_payslip_run","income.group_income_officer",1,1,1,1
+"access_hr_contract","hr.contract","hr_contract.model_hr_contract","income.group_income_officer",1,1,1,0
+"access_hr_rule_input","hr.rule.input","hr_payroll.model_hr_rule_input","income.group_income_officer",1,1,1,1
+"access_hr_salary_rule_user","hr.salary.rule.user","hr_payroll.model_hr_salary_rule","income.group_income_officer",1,1,1,1
+"access_hr_payroll_config_settings","hr.payroll.config.settings","hr_payroll.model_hr_payroll_config_settings","income.group_income_officer",1,1,1,1

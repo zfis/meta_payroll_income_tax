@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_salary_tracker" model="ir.ui.view">
+        <field name="name">salary.tracker.form</field>
+        <field name="model">salary.tracker</field>
+        <field name="arch" type="xml">
+            <form string="Salary Tracker">
+				<group col="4" colspan="6">
+                    <field name="employee_id" />
+					<field name="payroll_year" />
+				</group>
+                <footer>
+                    <button name="export_excel" string="Generate" type="object" class="btn-primary" />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+	<act_window id="action_salary_tracker_wizard"
+        name="Salary Tracker Report"
+        res_model="salary.tracker"
+        view_mode="form"
+        target="new"
+        key2="client_action_multi"/>
+
+    <menuitem name="Salary Tracker" 
+        action="action_salary_tracker_wizard" 
+        id="menu_salary_tracker_dynamic_report" 
+        parent="income.menu_hr_payroll_reports" 
+        sequence="305" />
+        
+</odoo>

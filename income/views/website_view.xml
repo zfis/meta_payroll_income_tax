@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="assets_frontend" name="Website Design" inherit_id="web.assets_frontend">        
+            <xpath expr="." position="inside">        
+                <link rel="stylesheet" href="/income/static/src/css/website.css"/>      
+            </xpath>    
+        </template>
+
+        <template id="login_layout" inherit_id="web.login_layout" name="Website Login Layout">
+            <xpath expr="t" position="replace">
+                <t t-call="website.layout">
+
+                <div style="text-align:-webkit-center;padding-top: 60px;">
+                    <img class="img img-responsive" style="width: 260px;" src="/income/static/src/img/logo.png" alt="Ace Advisory" data-original-title=""/>
+                </div>     
+                <form class="oe_login_form" style="max-width: 325px;border: 1px solid #DDD;padding: 25px;margin: 0 auto; background: #fff;margin-bottom: 50px;" role="form" t-attf-action="/web/login{{ '?debug' if debug else '' }}" method="post" onsubmit="this.action = this.action + location.hash">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                    <h3 style="padding: 0;margin-top: 0px;text-align: center;"> Payrol</h3>
+                    <hr/>
+                    <h5 style="padding: 0 0 10px;margin-top: 20px;font-weight:bold; font-size: 14px;text-align: center;color: #AAA"> Login </h5>
+
+                    <div class="form-group field-db" t-if="databases and len(databases) &gt; 1">
+                        <label for="db" class="control-label">Database</label>
+                        <div class="input-group">
+                            <input type="text" name="db" t-att-value="request.db" id="db" class="form-control" required="required" readonly="readonly"/>
+                            <span class="input-group-btn">
+                            <a href="/web/database/selector" class="btn btn-default">Select <i class="fa fa-database"/></a>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group field-login">
+                        <label for="login" class="control-label">Email</label>
+                        <input type="text" name="login" t-att-value="login" id="login" class="form-control" required="required" autofocus="autofocus" autocapitalize="off"/>
+                    </div>
+
+                    <div class="form-group field-password">
+                        <label for="password" class="control-label">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" required="required" autocomplete="current-password" t-att-autofocus="'autofocus' if login else None" maxlength="4096"/>
+                    </div>
+
+                    <p class="alert alert-danger" t-if="error">
+                        <t t-esc="error"/>
+                    </p>
+                    <p class="alert alert-success" t-if="message">
+                        <t t-esc="message"/>
+                    </p>
+
+                    <input type="hidden" name="redirect" t-att-value="redirect"/>
+                    <div class="clearfix oe_login_buttons">
+                        <button type="submit" class="btn btn-primary">Log in</button>
+                    </div>
+                </form>
+
+            </t>
+            </xpath>
+        </template>
+
+        <template id="website.footer_default" inherit_id="website.footer_custom" name="Automatic Footer">             
+            <xpath expr="//div[@id='footer']" position="replace">
+                <div id="footer" class="container hidden-print" style="font-size:11px !important; font-family: Tahoma;">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4">
+                            <h6 style="border-bottom: 1px solid #000; display: inline-flex;">Our Services</h6>
+                            <ul class="list-unstyled" id="products">
+                                <li>
+                                    <a href="https://aceadvisory.biz/finance-accounting/" target="_blank">− Finance &amp;amp; Accounting </a>
+                                </li>
+                                <li>
+                                    <a href="https://aceadvisory.biz/hr-payroll/" target="_blank">− HR &amp;amp; Payroll</a>
+                                </li>
+                                <li>
+                                    <a href="https://aceadvisory.biz/secretarial-compliance/" target="_blank">− Secretarial &amp;amp; Compliance</a>
+                                </li>
+                                <li>
+                                    <a href="https://aceadvisory.biz/tax-compliance/" target="_blank">− Tax Compliance</a>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled" id="products">
+                                <li>
+                                    <a href="https://aceadvisory.biz/entity-setup-advisory/" target="_blank">− Entity Setup Advisory &amp;amp; Corporate Structuring</a>
+                                </li>
+                                <li>
+                                    <a href="https://aceadvisory.biz/local-entity-formation/" target="_blank">− Local Entity Formation</a>
+                                </li>
+                                <li>
+                                    <a href="https://aceadvisory.biz/other-local-registrations-and-licenses/" target="_blank">− Other Local Registrations &amp;amp; Licenses</a>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled" id="products">
+                                <li>
+                                    <a href="https://aceadvisory.biz/accounting-advisory/" target="_blank">− Accounting Advisory </a>
+                                </li>
+                                <li>
+                                    <a href="https://aceadvisory.biz/management-consulting/" target="_blank">− Management Consulting</a>
+                                </li>
+                                <li>
+                                    <a href="https://aceadvisory.biz/process-advisory/" target="_blank">− Process Advisory</a>
+                                </li>
+                                <li>
+                                    <a href="https://aceadvisory.biz/tax-advisory/" target="_blank">− Tax Advisory</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4  col-lg-4" id="info">
+                            <h6 style="border-bottom: 1px solid #000;display: inline-flex;">Connect With Us</h6>
+                            <ul class="list-unstyled">
+                                <li t-ignore="true" style="padding: 10px 0;">
+                                    <i class="fa fa-phone"/>
+                                    <span>+880 9638 555 111, +880 1955 508 855</span>
+                                </li>
+                                <li t-ignore="true" style="padding: 10px 0;">
+                                    <i class="fa fa-envelope"/>
+                                    <span>info@aceadvisory.biz</span>
+                                </li>
+                                <li t-ignore="true" style="padding: 10px 0;">
+                                    <i class="fa fa-map-marker"/>
+                                    <span>House – 67 (Level-7), Road – 4, Block - C, Banani, Dhaka – 1213, Bangladesh</span>
+                                </li>
+                            </ul>
+                            <h2>
+                                <a t-att-href="website.social_facebook" t-if="website.social_facebook" target="_blank">
+                                    <i class="fa fa-facebook-square"/>
+                                </a>
+                                <a t-att-href="website.social_linkedin" t-if="website.social_linkedin" target="_blank">
+                                    <i class="fa fa-linkedin"/>
+                                </a>
+                                <!--<a t-att-href="website.social_twitter" t-if="website.social_twitter">-->
+                                <!--  <i class="fa fa-twitter"/>-->
+                                <!--</a>-->
+                                <!--<a t-att-href="website.social_youtube" t-if="website.social_youtube">-->
+                                <!--  <i class="fa fa-youtube-play"/>-->
+                                <!--</a>-->
+                                <!--<a t-att-href="website.social_googleplus" t-if="website.social_googleplus" rel="publisher">-->
+                                <!--  <i class="fa fa-google-plus-square"/>-->
+                                <!--</a>-->
+                                <!--<a t-att-href="website.social_github" t-if="website.social_github">-->
+                                <!--  <i class="fa fa-github"/>-->
+                                <!--</a>-->
+                            </h2>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <!--col-lg-offset-1-->
+                            <h6 style="border-bottom: 1px solid #000;display: inline-flex;">About Us</h6>
+                            <!--<small> - <a href="/page/website.aboutus">About Us</a></small>-->
+                            <div>
+                                <p style="margin-bottom: 15px; text-align: justify; color: rgb(0, 0, 0);">
+                                    <font class="text-epsilon">ACE Advisory is a leading provider of specialized back office BPO, advisory and consulting and</font>
+                                    <font class="text-epsilon">professional services in Bangladesh.</font>
+                                </p>
+                                <p style="margin-bottom: 15px; text-align: justify; color: rgb(0, 0, 0);">
+                                    <font class="text-epsilon">Our 3 core services support clients of various sizes with Setting up in Bangladesh, Business Process Outsourcing &amp;amp; Advisory &amp;amp; Consulting. Whether a client wants to setup in Bangladesh or outsource its payroll function, we provide the support by combining deep sector expertise, local insight and technology.</font>
+                                </p>
+                                <p style="margin-bottom: 15px; text-align: justify; color: rgb(0, 0, 0);">
+                                    <font class="text-epsilon">Our powerful payroll application puts us in an unique position as one of the few SaaS (software as a service) providers of payroll management services in Bangladesh.</font>
+                                </p>
+                            </div>
+                            <t t-call="website.language_selector"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="website.layout_footer_copyright" inherit_id="website.layout" name="Footer Copyright">        
+            <xpath expr="//footer" position="inside">
+                <div class="container mt16 mb8" style="border-top:3px solid #000;font-size:12px !important;">
+                    <div class="pull-right" t-ignore="true" t-if="not editable" style="padding-top:5px;padding-bottom:10px">
+                        <a class="label label-danger" href="http://www.aceadvisory.biz/" target="_blank">www.aceadvisory.biz</a>
+                    </div>
+                    <div class="pull-left text-muted" itemscope="itemscope" itemtype="http://schema.org/Organization" style="padding-top:5px;padding-bottom:10px">
+                        <span class="label" style="color: #777777;">&amp;copy; ACE ADVISORY 2019</span> |
+                        <a class="label" style="color: #777777;" href="/page/privacy-policy-detail">Privacy Policy</a> | 
+                        <a class="label" style="color: #777777;" href="/page/terms-conditions-detail">Terms &amp;amp; Conditions</a>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        
+        <template id="website.privacy-policy-detail" name="Privacy Policy">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty" style="background:#fff">
+                    <section class="s_text_block">
+                        <div class="container">
+                            <h2 class="text-center">
+                                <b>Privacy Policy</b>
+                            </h2>
+                            <div class="row">
+                                <div class="col-md-12 mb16 mt16">
+                                
+                                    <p><strong>ACE Advisory Privacy Statement for Client Employees</strong></p>
+
+                                    <p>ACE Advisory has an internal Data Privacy Policy that applies to all affiliates and associates. The Data Privacy Policy helps us ensure that personal data is handled properly. The Data Privacy Policy governs personal data collected by ACE Advisory for its own purposes as well as information provided to us as a processor for our Clients. It protects information collected online as well as offline. ACE Advisory is committed to protecting the privacy and security of personal data that we process in order to provide services to our Clients. We receive personal data from our Clients about their current, prospective and former employees as well as employee dependents and family members, as needed to provide benefits. This Privacy Statement explains our practices with regard to the personal data we receive from our Clients as a processor.</p>
+                                    
+                                    <p>ACE Advisory will collect and process your personal data only as instructed or permitted by our Client (your employer) or you. ACE Advisory maintains appropriate security controls to protect your information.
+                                    ACE Advisory will disclose your personal data to your employer and to other entities when instructed by your employer. We may disclose your personal data to our affiliates and third party processors as needed to provide the services that you and your employer have requested. These entities are contractually bound to limit the use of your personal data as needed to perform the services. We will also disclose personal data when required to do so by law, such as in response to a subpoena, including to law enforcement agencies and courts in the United States and other countries where we operate.</p>
+                                    
+                                    <p>If you have questions about your privacy rights, please contact your employer’s human resources department.</p>
+                                    
+                                    <p><strong>Sensitive Personal Data</strong></p>
+                                    
+                                    <p>In the ordinary course of its business, ACE Advisory processes sensitive personal data on behalf of your employer, such as NID and e-TIN numbers. ACE Advisory has implemented reasonable technical, physical and administrative safeguards to help protect the sensitive personal data from unlawful use and unauthorized disclosure. All ACE Advisory associates and contingent workers are required to follow these established procedures, both online and offline. Access to sensitive personal data is limited to those associates and contingent workers who have a need to access the information to perform tasks for ACE Advisory. ACE Advisory will only disclose sensitive personal data to those service providers, auditors, and/or advisors who are legally or contractually obligated to protect them or as required or permitted by law.</p>
+                                    
+                                    <p><strong>Anti-Money Laundering</strong></p>
+                                    
+                                    <p>If your employer has elected to receive services such as money movement services from ACE Advisory, ACE Advisory may be required by applicable laws to process Client employee data for monitoring and other controls needed to safeguard the security and integrity of financial transactions including for due diligence, such as verifying the identifying of the individual, and the individual’s eligibility to receive products or services, such as verifying employment or account status.</p>
+                                    
+                                    <p><strong>Questions about Your Personal Data</strong></p>
+                                    
+                                    <p>ACE Advisory is committed to transparency. We want individuals to understand how we collect and use personal data so they may interact with ACE Advisory with confidence. The materials provided on this webpage may help you find the information you need about privacy at ACE Advisory. If you have questions related to the content of this webpage, please contact us at info@aceadvisory.biz. As an employee of an ACE Advisory Client, please reach out to your employer for more information regarding the collection and processing of your personal data.</p>
+
+                                    <br/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </t>
+        </template>
+
+        <template id="website.terms-conditions-detail" name="Terms &amp;amp; Conditions">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty" style="background: #fff;">
+                    <section class="s_text_block">
+                        <div class="container">
+                            <h2 class="text-center">
+                                <b>Terms &amp;amp; Conditions</b>
+                            </h2>
+                            <div class="row">
+                                <div class="col-md-12 mt32 mb16">
+                                    <p><b>BY CLICKING OR TAPPING ON I AGREE BELOW AND/OR BY ACCESSING OR USING THE SITE IN ANY MANNER, </b>YOU ACKNOWLEDGE THAT YOU HAVE READ AND AGREE TO BE BOUND BY THESE TERMS AND CONDITIONS.* If you do not agree to all of the Terms, you are not authorized to access or otherwise use the Site (as defined below).</p>
+
+                                    <p>1.<b> SITE OVERVIEW. </b>The Site is available only to users who have a registered User ID and Password and are employees or plan participants of the employer indicated on the Site (the "Employer"). If you do not have a valid registered User ID and Password or are no longer an employee or plan participant of the Employer, you are not authorized to use or access the Site; however, in certain limited instances, the Employer may permit certain of its terminated employees to access the Site for very limited purposes. The Employer, through its service agreement(s) with ACE Advisory, ("ACE"), is providing you with access to the information and services on the Site under these terms and conditions ("Terms"). Please note that not all terms and conditions set out below may be applicable to you. Only the terms applicable to the products and services purchased by your Employer under its service agreement(s) with ACE apply. The "Site" shall refer to the site which makes available certain ACE Services (the "Services") to employee users, plan participant users and administrator users, as applicable, as authorized by the Employer.
+                                    </p>
+
+                                    <p><b>A. EMPLOYEE/PLAN PARTICIPANT USERS. </b>On the Site, you will be able to access certain employment-related or plan-related information and documents made available by Employer and to participate in the "Services". These Services may permit you to update certain personal information and to make certain elections through the Site, in each case through the use of certain software proprietary to ACE and its licensors (the "Software"). You acknowledge and agree that it is your responsibility to submit information relating to the Services and to verify the accuracy and completeness of all such information. ACE does not review the accuracy or completeness of the information you submit.
+                                    </p>
+
+                                    <p>You acknowledge and understand that ACE is merely making the Site available on behalf of the Employer and is not acting as an investment advisor, broker-dealer, insurance agent or intermediary or a financial or benefit planner or tax advisor. ACE is not providing any benefits or any information related thereto. The Employer is responsible for making available all benefits and information related thereto referenced or included on the Site. 
+                                    </p>
+
+                                    <p>You acknowledge that ACE is not rendering legal advice or other professional services. While every effort is made to provide current information, the law changes regularly and laws may vary depending upon the country, state, province or municipality. The materials in the Site are made available for informational purposes only and are not a substitute for legal advice or your professional judgment. You should review applicable law in your jurisdiction and consult counsel for legal advice. You assume all responsibility for and risk arising from your use of and reliance upon the contents of the Site.
+                                    </p>
+
+                                    <p>You may from time to time provide suggestions, comments or other feedback ("Feedback") to ACE with respect to the Software, Services and/or related documentation. All Feedback shall be provided voluntarily and shall not, absent a separate written agreement, create any confidentiality obligation for ACE. ACE may use, disclose, reproduce, license or otherwise distribute any Feedback it receives at its discretion.
+                                    </p>
+
+                                    <p><b>B. ADMINISTRATOR USERS. </b>Â On behalf of the Employer, you will be able to access and input certain information relating to the Employer, the Employer's employees and/or the Employer's plan participants. The information that you input may be used and relied upon by ACE and by the Employer's employees and plan participants who participate in the Services. The Services may permit employees/plan participants of the Employer to make certain elections through the Site and to update certain personal information, in each case through the use of the Software. As an authorized administrator for the Employer, you acknowledge and agree, on behalf of the Employer, that it is the Employer's responsibility to submit instructions and information relating to the Services and to verify the accuracy and completeness of all such instructions and information submitted by the Employer and the Employer's employees and plan participants.Â 
+                                    </p>
+
+                                    <p>As an authorized administrator for the Employer, you acknowledge and understand, on behalf of the Employer, that ACE is merely making the Site available and is not acting as an investment advisor, broker-dealer, insurance agent or intermediary or a financial or benefit planner. ACE is not providing any benefits or any information related thereto. As an authorized administrator for the Employer, you acknowledge, on behalf of the Employer, that the Employer is responsible for making available all benefits and information related thereto referenced or included on the Site. 
+                                    </p>
+
+                                    <p><b>* Note on Binding Effect: </b>As an authorized administrator for the Employer, your acceptance of these Terms will serve to bind BOTH you and the Employer and in accepting such terms, you represent that you are authorized to so bind the Employer. The portion of the Terms specifically applicable to "Administrator Users" will be binding upon you in your capacity as an authorized administrator and on the EMPLOYER, and the terms specifically applicable to "Employee/Plan Participant Users" or "Employees" or "Participants" will be binding upon you as an employee or a plan participant, and not upon your Employer. All other terms will be binding upon both you and the Employer.</p>
+
+                                    <p>2.<b> REGISTRATION AND PASSWORD. </b>In order to access and use the Site, you must provide your current User ID and Password. You agree to take any and all actions necessary to maintain the privacy of your User ID and Password, including, without limitation, safeguarding your User ID and Password in a private and secure place, adopting special precautions when accessing the Site from a computer that is available for use by other users and exiting from the Site at the end of each session. In the event that you have reason to believe that a third party has access to your account, you should immediately change your Password and notify your security administrator or your HR Department. You agree not to adopt any obscene, vulgar or profane User ID or password.
+                                    </p>
+
+                                    <p>3.<b> LAWS AND REGULATIONS.</b> Access to and use of the Site (including the Software and Services) is subject to all applicable international, federal, state, provincial and local laws and regulations. You agree to abide by these laws and not use the Site (including the Software and Services) in any way that violates such laws or regulations.</p>
+
+                                    <p>4.<b> PRIVACY.</b> Any personal information provided to ACE through the Site is subject to the ACE privacy policy.</p>
+
+                                    <p>5.<b> SECURITY.</b> Data transmitted to and from the Site is encrypted for the user's protection. However, the security of information transmitted through the Internet can never be guaranteed. ACE is not responsible for any interception or interruption of any communications through the internet or for changes to or losses of data. User is responsible for maintaining the security of any password, user ID or other form of authentication involved in obtaining access to password protected or secure areas of ACE sites. In order to protect you and your data, ACE may suspend your use of the Site, without notice, pending an investigation, if any breach of security is suspected.Â 
+                                    </p>
+
+                                    <p>6.<b> COPYRIGHTS AND TRADEMARKS.</b> The Software available on or through the Site is the sole and exclusive property of ACE or its licensors, and is protected by copyright, trademark, and other intellectual property laws. Users may not use the trademarks, logos and service marks ("Marks") found on the Site for any purpose, including, but not limited to, use as "hot links" or meta tags in other pages or sites on the World Wide Web, without the written permission of ACE or such third party that may own the Mark. </p>
+
+                                    <p>7.<b> RIGHTS TO USE SOFTWARE; NO TAMPERING.</b> The Software includes certain computer software that is subject to copyright protection by ACE and/or ACE's licensors. You agree and acknowledge that ACE and/or its licensors retain title to the Software and any copies thereof. You are not purchasing title to the Software or copies thereof. ACE reserves all rights not expressly granted to you. You may not copy, distribute, transmit, display, publish, sell, rent, license, create derivative works or otherwise use any Software available on or through the Site for commercial or public purposes. You are granted access to use the Software on a limited, revocable, non-exclusive, and non-transferable basis, subject to these Terms. You may not decompile, reverse engineer, disassemble, attempt to derive the source code of, modify, or create derivative works of the Software, any updates, or any part thereof (except as and only to the extent any foregoing restriction is prohibited by applicable law or to the extent as may be permitted by the licensing terms governing use of any open sourced components included with the Software). You agree not to modify, move, add to, delete or otherwise tamper with the Software contained in the Site. Any attempt to do so is a violation of the rights of ACE and its licensors.</p>
+
+                                    <p>8.<b> USE OF SITE NOT TRANSFERABLE/ASSIGNABLE.</b> The right to use the Site (including the Software and Services) is personal to each user that is authorized to use the Site and is not transferable by such user by assignment, sublicense, or any other method to any other person or entity. Any attempt by a user to transfer such user's rights shall be void and shall constitute a breach of these Terms.
+                                    </p>
+
+                                    <p>9.<b> OFFENSIVE, DESTRUCTIVE OR INAPPROPRIATE USE.</b> You shall not exploit the Site or the Services in any unauthorized way whatsoever, including but not limited to, by trespass or burdening network capacity. You acknowledge and agree you are not permitted to use any personally identifiable information for personal use and you agree not to copy, transfer or distribute any personally identifiable information other than in compliance with all laws and as permitted in connection with the Services. You further agree not to use the Services in any manner to harass, abuse, stalk, threaten, defame or otherwise infringe or violate the rights of any other party, and that ACE is not in any way responsible for any such use by you, nor for any harassing, threatening, defamatory, offensive or illegal messages or transmissions that you may receive as a result of using any of the Services.Â 
+                                    </p>
+
+                                    <p>10.<b> YOUR REPRESENTATIONS.</b> You represent, warrant and covenant that: (a) you are authorized to access and use the Site; (b) all instructions and information you enter into the Site related to the Services will be accurate and complete; (c) you will verify and remain solely responsible for all instructions and information entered into the Site related to the Services; (d) you will not upload, transmit, distribute or otherwise publish through the Site any materials that contain a virus, worm or other harmful component or that would cause the Site to malfunction; (e) you will not decompile, reverse engineer, disassemble or unlawfully use or reproduce any of the Software or other copyrighted or trademarked material, trade secrets or other proprietary information contained in the Site; and (f) if you are accessing ACE's background screening services, you shall not attempt to obtain any background report on yourself, associates, or any other person, except in the exercise of your official duties.</p>
+
+                                    <p>11.<b> LINKS FROM THIRD PARTY SITES.</b> ACE prohibits unauthorized links to the Site and the framing of any information contained on the Site or any portion of the Site. ACE reserves the right to disable any unauthorized links or frames. ACE has no responsibility or liability for any material on other Web sites that may contain links to the Site.Â </p>
+
+                                    <p>12.<b> LINKS TO THIRD PARTY SITES; OTHER CONTENT; THIRD PARTY SERVICES.</b> The Services may display, include or make available, content, data, information, applications or materials from third parties or provide links to certain third party web sites. Third party materials and links to other web sites are provided solely as a convenience to you. You acknowledge and agree that ACE is not responsible for examining or evaluating the content, accuracy, completeness, timeliness, validity, copyright compliance, legality, decency, quality or any other aspect of such third party materials or web sites. ACE does not warrant or endorse and does not assume and will not have any liability or responsibility to you or any other person for any third party services, third party materials or web sites, or for any other materials, products, or services of third parties. You also agree that any third party charges that are necessary to use the Site, such as internet charges and service provider charges, are your responsibility and not that of ACE. You understand that by using any of the third party services, you may encounter content that may be deemed offensive, indecent, or objectionable, which content may or may not be identified as having explicit language, and that the results of any search or entering of a particular URL may automatically and unintentionally generate links or references to objectionable material. Nevertheless, you agree to use such services at your sole risk and ACE shall not have any liability to you for content that may be found to be offensive, indecent, or objectionable. ACE DOES NOT ENDORSE, WARRANT, OR GUARANTEE ANY PRODUCT, INFORMATION OR SERVICE OFFERED BY A THIRD PARTY THROUGH THE SITE, AND WILL NOT BE A PARTY TO OR IN ANY WAY MONITOR ANY TRANSACTION BETWEEN ANY USER OF THE SITE AND ANY SUCH THIRD-PARTY PROVIDER.</p>
+
+                                    <p>13.<b> NO WARRANTIES. ACE AND ITS LICENSORS MAKE NO WARRANTIES WHATSOEVER WITH RESPECT TO THE SITE AND THE LICENSED APPLICATION (INCLUDING THE SOFTWARE AND SERVICES). YOU ACKNOWLEDGE THAT YOUR USE OF THE SITE AND THE LICENSED APPLICATION (INCLUDING THE SOFTWARE AND SERVICES) IS AT YOUR OWN RISK. THE SITE AND LICENSED APPLICATION (INCLUDING THE SOFTWARE AND SERVICES) IS PROVIDED SOLELY ON AN "AS-IS" AND "AS-AVAILABLE" BASIS. ACE AND ITS LICENSORS MAKE, AND YOU RECEIVE, NO WARRANTIES, EXPRESS OR IMPLIED, IN FACT OR BY OPERATION OF LAW, STATUTORY OR OTHERWISE. ACE AND ITS LICENSORS EXPRESSLY DISCLAIM ANY IMPLIED WARRANTIES OF MERCHANTABILITY, SATISFACTORY QUALITY, FITNESS FOR A PARTICULAR PURPOSE, AND/OR NONINFRINGEMENT. NEITHER ACE NOR ITS LICENSORS WARRANTS THAT THE OPERATION OF THE SITE AND THE LICENSED APPLICATION (INCLUDING THE SOFTWARE AND SERVICES) SHALL BE UNINTERRUPTED, FREE OF VIRUSES, WORMS, TROJAN HORSES OR ANY OTHER MALICIOUS CODE, ERROR FREE OR THAT IT WILL FUNCTION OR OPERATE IN CONJUNCTION WITH ANY OTHER PRODUCT. ACE AND ITS LICENSORS FURTHER DISCLAIM ANY WARRANTY THAT THE RESULTS OBTAINED THROUGH THE USE OF THE SITE AND LICENSED APPLICATION (INCLUDING THE SOFTWARE OR SERVICES) WILL MEET YOUR NEEDS.</b></p>
+
+
+                                    <p>14.<b> LIMITATION OF LIABILITY. TO THE EXTENT PERMITTED BY LAW, UNDER NO CIRCUMSTANCES SHALL ACE OR ITS LICENSORS BE LIABLE FOR ANY DAMAGES SUFFERED BY YOU, INCLUDING, WITHOUT LIMITATION, ANY DIRECT, INCIDENTAL, INDIRECT, SPECIAL, EXEMPLERY OR CONSEQUENTIAL DAMAGES (INCLUDING, WITHOUT LIMITATION, (I) LOSSES ARISING FROM THE FAILURE TO RECEIVE ANY BENEFITS, (II) ANY TRADING LOSSES, (III) LOSSES ARISING FROM THE USE OR THE INABILITY TO USE THE SITE AND LICENSED APPLICATION (INCLUDING THE SOFTWARE AND/OR THE SERVICES), (IV) LOSSES ARISING FROM UNAUTHORIZED ACCESS TO OR ALTERATION OF YOUR TRANSMISSIONS OR DATA, OR (V) LOSS OF INFORMATION, PROGRAMS OR OTHER DATA THAT RESULT FROM ACCESS TO, USE OF, OR INABILITY TO USE THE SITE AND LICENSED APPLICATION (INCLUDING THE SOFTWARE AND/OR SERVICES) OR DUE TO ANY BREACH OF SECURITY ASSOCIATED WITH THE TRANSMISSION OF INFORMATION THROUGH THE INTERNET. THIS LIMITATION OF LIABILITY SHALL BE IN FULL FORCE REGARDLESS OF WHETHER SUCH LIABILITY IS BASED ON BREACH OF CONTRACT, TORT, STRICT LIABILITY OR OTHERWISE, AND EVEN IF ACE OR ITS LICENSORS HAD PREVIOUSLY BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</b></p>
+
+                                    <p>15.<b> ACCESS TO PASSWORD PROTECTED/SECURE AREAS.</b> Access to and use of password protected and/or secure areas of the Site is restricted to authorized users only. Unauthorized access to such areas is prohibited and may lead to criminal prosecution.</p>
+
+                                    <p>16.<b> TERMINATION.</b> The Site and/or access to the Software and Services may be discontinued, temporarily or permanently, by ACE at any time without notice to users. ACE shall not be liable to any employee or plan participant of Employer or to any third party for any suspension or discontinuance of the Site, the Software or the Services. Your rights to access the Site and the Software shall terminate if you cease to be an employee or plan participant of the Employer, except as contemplated under Section 1 of these Terms. Upon termination of your access to the Site or Software, you shall cease use of the Site or Software.</p>
+
+                                    <p>17.<b> CHANGES TO SERVICE AND TERMS.</b> ACE is not responsible for any technical inaccuracies or typographical errors that may be contained in these Terms. ACE reserves the right to changes these Terms in its sole discretion at any time. Any such changes to the Terms will become effective immediately upon being posted on the Site. You will be able to view the changed Terms by clicking or tapping on the link for Terms and Conditions after you login and your continued use of the Site shall constitute acceptance of such changed terms. The Site and/or the Software and any Services may be modified, temporarily or permanently, by ACE at any time without notice to you. You agree that ACE shall not be liable to you or to any third party for any modification of the Site and/or the Software or the Services.</p>
+
+
+                                    <p>18.<b> TRANSMISSIONS OF DATA.</b> You acknowledge that transmissions to and from the Site could be read or intercepted by others. You acknowledge that by submitting communications through the Site, no confidential, fiduciary, contractually implied or other relationship is created between you and ACE other than pursuant to these Terms. By your use of the Site and your transmitting your personal information and other data, you consent to the use of your personal information and other data as required by ACE to provide these Services in accordance with the terms of ACE's applicable service agreement with the Employer.</p>
+
+
+                                    <p>19.<b> CONSENT TO USE OF DATA.</b> You agree that ACE may collect and use technical data and related information, including but not limited to technical information about your Device, system and application software, and peripherals, that is gathered periodically to facilitate the provision of software updates, product support and other services to you (if any) related to the Software. ACE may use this information, as long as it is in a form that does not personally identify you, to improve its products or to provide services or technologies to you or the Employer. In some circumstances, ACE may share information you voluntarily provide us, such as your email address, with trustworthy service providers.</p>
+
+
+                                    <p>20.<b> GOVERNING LAW.</b> THESE TERMS SHALL BE GOVERNED BY AND CONSTRUED ACCORDING TO THE LAWS OF BANGLADESH, EXCLUDING ITS CONFLICTS OF LAWS RULES, REGARDLESS OF WHERE ANY ACTION MAY BE BROUGHT. YOU AGREE TO SUBMIT TO THE EXCLUSIVE JURISDICTION OF THE COURTS OF BANGLADESH. </p>
+
+
+                                    <p>21.<b> THIRD PARTY BENEFICIARIES.</b> ACE's licensors and vendors shall be considered third party beneficiaries of these terms for purposes of Sections 13 and 14.</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </section>
+                </div>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>

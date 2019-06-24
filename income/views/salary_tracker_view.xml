@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_backend" name="income assets" inherit_id="web.assets_backend">        
+        <xpath expr="." position="inside">        
+            <link rel="stylesheet" href="/income/static/src/css/salary_tracker.css"/>    
+            <script type="text/javascript" src="/income/static/src/js/sync.js"></script>    
+        </xpath>    
+    </template>
+
+    <record id="salary_tracker_load_tree" model="ir.ui.view">
+        <field name="name">salary.tracker.load.tree</field>
+        <field name="model">salary.tracker.load</field>
+        <field name="arch" type="xml">
+            <tree string="Salary Tracker" delete="false" default_order='employee_id, sequence' class="salary-tracker">  
+                <field name="company_id" invisible="1"/>
+                <field name="employee_id"/>
+                <field name="sf_id_2" />
+                <field name="rule_id"/>  
+                <field name="sequence" invisible="1"/>    
+                <field name="year" />
+                <field name="jul" sum="Jul"/>  
+                <field name="aug" sum="Aug"/>  
+                <field name="sep" sum="Sep"/>  
+                <field name="oct" sum="Oct"/>  
+                <field name="nov" sum="Nov"/>  
+                <field name="dec" sum="Dec"/>  
+                <field name="jan" sum="Jan"/>
+                <field name="feb" sum="Feb"/>
+                <field name="mar" sum="Mar"/>
+                <field name="apr" sum="Apr"/>
+                <field name="may" sum="May"/>  
+                <field name="jun" sum="Jun"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_salary_tracker_load_filter" model="ir.ui.view">
+        <field name="name">salary.tracker.load.filter</field>
+        <field name="model">salary.tracker.load</field>
+        <field name="arch" type="xml">
+            <search string="Search Salary Tracker Report">
+                <field name="company_id"/>
+                <field name="employee_id"/>
+                <field name="year"/>
+                <filter name="draft" string="Draft" domain="[('state','=','draft')]" help="Draft Slip"/>
+                <filter name="done" string="Done" domain="[('state','=','done')]" help="Done Slip"/>
+                <group expand="0" string="Group By">
+                    <filter string="Employee" name="group_employee_id" context="{'group_by':'employee_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_salary_tracker_load" model="ir.actions.act_window">
+        <field name="name">Salary Tracker View</field>
+        <field name="res_model">salary.tracker.load</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref='view_salary_tracker_load_filter'/>
+        <field name='domain'>[]</field> 
+    </record>
+
+    <menuitem id="menu_hr_payroll_reports" 
+        name="Reports" 
+        parent="hr_payroll.menu_hr_payroll_root" 
+        groups="hr_payroll.group_hr_payroll_manager" 
+        sequence="300" />
+
+    <menuitem name="Salary Tracker View" 
+        action="action_salary_tracker_load" 
+        id="menu_salary_tracker_load" 
+        parent="income.menu_hr_payroll_reports" 
+        sequence="308" />
+
+
+    <!-- <menuitem id="menu_hr_payroll_reports" 
+        name="Reports" 
+        parent="hr_payroll.menu_hr_payroll_root" 
+        groups="hr_payroll.group_hr_payroll_manager" 
+        sequence="300" /> -->
+
+    <!-- <record id="salary_tracker_report_tree" model="ir.ui.view">
+        <field name="name">salary.tracker.report.new.tree</field>
+        <field name="model">salary.tracker.report.new</field>
+        <field name="arch" type="xml">
+            <tree string="Salary Tracker" default_order='employee_name, sequence' class="salary-tracker">  
+                <field name="id" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="employee_id"/>
+                <field name="employee_name"/> 
+                <field name="sf_id_2" />
+                <field name="details"/>  
+                <field name="sequence" invisible="1"/>    
+                <field name="year" />
+                <field name="jul" sum="Jul"/>  
+                <field name="aug" sum="Aug"/>  
+                <field name="sep" sum="Sep"/>  
+                <field name="oct" sum="Oct"/>  
+                <field name="nov" sum="Nov"/>  
+                <field name="dec" sum="Dec"/>  
+                <field name="jan" sum="Jan"/>
+                <field name="feb" sum="Feb"/>
+                <field name="mar" sum="Mar"/>
+                <field name="apr" sum="Apr"/>
+                <field name="may" sum="May"/>  
+                <field name="jun" sum="Jun"/>
+                <field name="state"  invisible="1"/>
+                <field name="company_name" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_salary_tracker_report" model="ir.actions.act_window">
+        <field name="name">Salary Tracker View</field>
+        <field name="res_model">salary.tracker.report.new</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref='view_salary_tracker_report_filter'/>
+        <field name='domain'>[]</field> 
+        <field name="context">
+            {
+                'group_by':[]
+            }
+        </field>
+    </record>
+
+    <record id="view_salary_tracker_report_filter" model="ir.ui.view">
+        <field name="name">salary.tracker.report.new.select</field>
+        <field name="model">salary.tracker.report.new</field>
+        <field name="arch" type="xml">
+            <search string="Search Salary Tracker Report">
+                <field name="company_name"/>
+                <field name="employee_name"/>
+                <field name="year"/>
+                <field name="employee_id"/>
+                <filter name="draft" string="Draft" domain="[('state','=','draft')]" help="Draft Slip"/>
+                <filter name="done" string="Done" domain="[('state','=','done')]" help="Done Slip"/>
+                <group expand="0" string="Group By">
+                    <filter string="Employee" name="group_employee_name" context="{'group_by':'employee_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <menuitem name="Salary Tracker View Old" 
+    action="action_salary_tracker_report" 
+    id="menu_salary_tracker_view_report" 
+    parent="hr_payroll.menu_hr_payroll_reports" 
+    sequence="307" /> -->
+
+</odoo>

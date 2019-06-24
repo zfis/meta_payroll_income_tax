@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_payroll_tracker" model="ir.ui.view">
+        <field name="name">payroll.tracker.form</field>
+        <field name="model">payroll.tracker</field>
+        <field name="arch" type="xml">
+            <form string="Payroll Tracker">
+				<group col="4" colspan="6">
+					<field name="payroll_month" />
+					<field name="payroll_year" />
+				</group>
+                <group>
+                    <field name="hr_field" widget="many2many_checkboxes"/>
+				</group>
+                <footer>
+                    <button name="print_report" string="Print" type="object" class="btn-primary" invisible="1"/>
+                    <button name="export_excel" string="Generate" type="object" class="btn-primary" />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+	<act_window id="action_payroll_tracker_wizard"
+        name="Payroll Tracker Report"
+        res_model="payroll.tracker"
+        view_mode="form"
+        target="new"
+        key2="client_action_multi"/>
+    
+    <menuitem name="Payroll Tracker" 
+        action="action_payroll_tracker_wizard" 
+        id="menu_payroll_tracker_dynamic_report" 
+        parent="income.menu_hr_payroll_reports" 
+        sequence="301" />
+
+</odoo>

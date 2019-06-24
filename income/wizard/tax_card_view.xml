@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="view_tax_card" model="ir.ui.view">
+            <field name="name">tax.card.data.form</field>
+            <field name="model">tax.card.data</field>
+            <field name="arch" type="xml">
+                <form string="Income Tax Card">
+                    <group col="4" colspan="6">
+                        <field name="payroll_month" />
+					    <field name="payroll_year" />
+                        <newline/>
+                        <field name="emp" invisible="True"/>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_tax_card" model="ir.actions.act_window">
+            <field name="name">Income Tax Card</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tax.card.data</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="tax_card_value" model="ir.values">
+            <field name="model_id" ref="hr.model_hr_employee" />
+            <field name="name">Income Tax Card</field>
+            <field name="key2">client_print_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_tax_card'))" />
+            <field name="key">action</field>
+            <field name="model">hr.employee</field>
+        </record>
+
+</odoo>

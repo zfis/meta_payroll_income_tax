@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_challan">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!-- <t t-call="report.external_layout"> -->
+                <div class="page">
+                    <style>.overwrite-code {
+                                top: 215px;
+                                position: fixed;
+                                text-align:right;
+                                left: 240px;
+							    }
+							    .overwrite-code span {
+                                display:inline-block;
+                                text-align:center;
+                                }
+                                .overwrite {
+                                top: 400px;
+                                position: fixed;
+                                left: 100px;
+                                }
+                                .com-addr-1 {
+                                float: left;
+                                width: 220px;
+                                padding-left: 5px;
+                                }
+                                .com-addr-2 {
+                                float: left;
+                                width: 250px;
+                                padding-left: 5px;
+                                }
+                                .tds-detail {
+                                float: left;
+                                width: 205px;
+                                padding-left: 5px;
+                                padding-right: 5px;
+                                }
+                                .cheque-detail {
+                                float: left;
+                                width: 170px;
+                                padding-left: 5px;
+                                }
+                                .tds_total {
+                                float: left;
+                                width: 95px;
+                                text-align:right;
+                                padding-right: 5px;
+                                }
+                                .overwrite-2 {
+                                top: 625px;
+                                position: fixed;
+                                left: 940px;
+                                }
+                                .tds_total_summary {
+                                width: 95px;
+                                text-align:right;
+                                }
+                                .overwrite-3 {
+                                top: 650px;
+                                position: fixed;
+                                left: 200px;
+                                }
+                                .tds_total_in_word {
+                                }
+                                .tds-tbl {
+                                width: 90%;
+                                padding-left: 10%;
+                                padding-top: 50px;
+                                }
+                                .tds-tbl tr {
+                                border: 2px solid #ddd;
+                                }
+                                .bold {
+                                font-weight: bold;
+                                }</style>
+                    <t t-set="total_tds" t-value="0" />
+                    <t t-foreach="o.line_ids" t-as="line">
+                        <t t-set="total_tds" t-value="total_tds + line.tds_amount" />
+                    </t>
+                    <div class="bg-img">
+                        <img src="/income/static/src/img/challan.png" />
+                    </div>
+                    <div class="overwrite-code">
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[0:-12]" style="width:78px;"/>
+                        <span style="width:30px;"></span>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[1:-11]" style="width:30px;"/>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[2:-10]" style="width:30px;"/>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[3:-9]" style="width:30px;"/>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[4:-8]" style="width:30px;"/>
+                        <span style="width:28px;"></span>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[5:-7]" style="width:30px;"/>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[6:-6]" style="width:30px;"/>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[7:-5]" style="width:30px;"/>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[8:-4]" style="width:30px;"/>
+                        <span style="width:28px;"></span>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[9:-3]" style="width:30px;"/>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[10:-2]" style="width:30px;"/>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[11:-1]" style="width:30px;"/>
+                        <span t-if="o.company_id.challan_code" t-esc="str(o.company_id.challan_code)[-1:]" style="width:30px;"/>
+                    </div>
+                    <div class="overwrite">
+                        <div class="width:100%;">
+                            <div class="com-addr-1">
+                                <span t-field="o.company_id" class="bold" />
+                                <br />
+                                <span t-field="o.company_id.street" />
+                                <br />
+                                <span t-field="o.company_id.city" />
+                                <span t-field="o.company_id.street2" />
+                                <br />
+                                <span t-field="o.company_id.zip" />
+                            </div>
+                            <div class="com-addr-2">
+                                Employees of
+                                <br />
+                                <span t-field="o.company_id" class="bold" />
+                                <br />
+                                <span t-field="o.company_id.street" />
+                                <br />
+                                <span t-field="o.company_id.city" />
+                                <span t-field="o.company_id.street2" />
+                                <br />
+                                <span t-field="o.company_id.zip" />
+                            </div>
+                            <div class="tds-detail">
+                                Tax deducted at source from salary under Section 50
+                                        of the Income Tax Ordinance 1984 for the month of
+                                <b>
+                                    <span t-field="o.payroll_month" />
+                                    <span t-field="o.payroll_year" />
+                                </b>
+                            </div>
+                            <div class="cheque-detail">
+                                Cheque -
+                                <span t-field="o.cheque_no" />
+                                <br />
+                                Dated -
+                                <span t-field="o.cheque_date" />
+                                <br />
+                                drawn on
+                                <span t-field="o.bank_name" />
+                            </div>
+                            <div class="tds_total">
+                                <t t-esc="'{0:,.0f}'.format(int(total_tds))" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overwrite-2">
+                        <div class="tds_total_summary">
+                            <t t-esc="'{0:,.0f}'.format(int(total_tds))" />
+                        </div>
+                    </div>
+                    <div class="overwrite-3">
+                        <div class="tds_total_in_word">
+                            <t t-set="amount_in_word" t-value="o.run_sql(total_tds)" />
+                            Taka
+                            <span t-esc="amount_in_word" />
+                            Only
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="tds-tbl">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">SI No.</th>
+                                        <th scope="col">Name of Employee</th>
+                                        <th scope="col">Month</th>
+                                        <th scope="col">e-TIN Number</th>
+                                        <th scope="col">Ammount of TDS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="i" t-value="1" />
+                                    <tr t-foreach="o.line_ids" t-as="line">
+                                        <td>
+                                            <span t-esc="i" />
+                                            <t t-set="i" t-value="i+1" />
+                                        </td>
+                                        <td>
+                                            <span t-field="line.employee_id" />
+                                        </td>
+                                        <td>
+                                            <span t-field="o.payroll_month" />
+                                            -
+                                            <span t-field="o.payroll_year" />
+                                        </td>
+                                        <td>
+                                            <span t-field="line.employee_id.e_tin" />
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <t t-esc="'{0:,.0f}'.format(int(line.tds_amount))" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td />
+                                        <td />
+                                        <td />
+                                        <td style="text-align: right;">
+                                            <t t-esc="'{0:,.0f}'.format(int(total_tds))" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- </t> -->
+            </t>
+        </t>
+    </template>
+</odoo>

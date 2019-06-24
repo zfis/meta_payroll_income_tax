@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<template id="report_id">
+		<t t-call="report.html_container">
+			<div t-foreach="docs" t-as="line">
+				<div class="container">
+					<div class="page">
+						<style>
+							.heading_right-side{
+							float: right;
+							padding-right:10px;
+							}
+							.heading_left-side{
+							float: left;
+							}
+						</style>
+						<section id="top" class="top">
+							<div class="row">
+								<div class="col-md-6 col-sm-6">
+									<div class="heading_left-side">
+										<h5>
+											<span class="dynamic_value">
+												<t t-esc="line.employee_id.name" />
+											</span>
+										</h5>
+										<h5>
+											<span class="dynamic_value">
+												<t t-esc="line.employee_id.job_id.name" />
+											</span>
+										</h5>
+										<h5>
+											<span class="dynamic_value">
+												<t t-esc="line.employee_id.company_id.name" />
+											</span>
+										</h5>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<div class="heading_right-side">
+										<h6>
+											<span class="dynamic_value">
+												Date:
+												<t t-esc="time.strftime('%d/%m/%Y')"/> 
+											</span>
+										</h6>
+									</div>
+								</div>
+							</div>
+						</section>
+						<section id="subject" class="subject">
+							<h5>
+								<b>
+									<span>
+										Subject:
+									</span>
+									Investment in approved securities for the purpose of income tax rebate for the Income Year
+								</b>
+								<span class="dynamic_value">
+									<t t-esc="line.income_year" />
+								</span>
+								<b>
+									(Assessment Year:
+								</b>
+								<span class="dynamic_value">
+									<t t-esc="line.assessment_year" />
+								</span>
+								)
+							</h5>
+							<br />
+						</section>
+						<section id="Application" class="Application">
+							<p style="margin-bottom: 15px">
+								Dear
+								<span class="dynamic_value">
+									<t t-esc="line.employee_id.name" />
+								</span>
+							</p>
+							<p>
+								You are aware that every employee is required to invest in approved securities/instruments each year for claiming income tax rebate. As per your present salary and benefits, you can invest an amount of Tk.
+								<span class="dynamic_value">
+									<b>
+										<t t-esc="'{0:,.0f}'.format(int(line.max_invesetment_rebate))" />
+									</b>
+								</span>
+								during the income year
+								<span class="dynamic_value">
+									<t t-esc="line.income_year" />
+								</span>
+								to get maximum tax rebate.
+							</p>
+							<p>
+								Please, note that your estimated tax burden has been calculated considering maximum tax rebate assuming that you will invest the required amount in approved securities/instruments during the income year
+								<span class="dynamic_value">
+									<t t-esc="line.income_year" />
+								</span>
+								. If you do not or partially invest, you will get no rebate or partial rebate, as the case may be, and accordingly your tax burden/tax deduction will be increased. For your ready reference find enclosed Annex-1 to know about eligible investments for availing the Tax Rebate.
+								<br />
+								<br />
+								Thanking you,
+								<br />
+								<br />
+							</p>
+							<h5>
+								<span class="dynamic_value">
+									<t t-esc="line.employee_id.company_id.name" />
+								</span>
+							</h5>
+							<h5>
+								<span class="dynamic_value">
+									<t t-esc="line.employee_id.company_id.street" />
+								</span>
+							</h5>
+							<h5>
+								<span class="dynamic_value">
+									<t t-if="not line.employee_id.company_id.street2">
+										<t t-esc="line.employee_id.company_id.street2" />
+									</t>
+								</span>
+							</h5>
+							<h5>
+								<span class="dynamic_value">
+									<t t-if="line.employee_id.company_id.city">
+										<t t-esc="line.employee_id.company_id.city" />
+									</t>
+									<t t-if="not line.employee_id.company_id.city">
+										<t t-esc="line.employee_id.company_id.zip" />
+									</t>
+								</span>
+							</h5>
+							<h5>
+								<span class="dynamic_value">
+									<t t-esc="line.employee_id.country_id.name" />
+								</span>
+							</h5>
+							<p>
+								===============================================================================================
+							</p>
+							<p style="margin-top: 30px;margin-bottom: 20px">
+								Declaration from
+								<span class="dynamic_value">
+									<b>
+										<t t-esc="line.employee_id.name" />
+										(e-TIN Number -
+										<t t-esc="line.employee_id.e_tin" />
+										)
+									</b>
+								</span>
+							</p>
+							<p>
+								To calculate my tax liability for the Income Year
+								<span class="dynamic_value">
+									<t t-esc="line.income_year" />
+								</span>
+								(Assessment Year
+								<span class="dynamic_value">
+									<t t-esc="line.assessment_year" />
+								</span>
+								), I am confirming the below details for my Tax Rebate Calculation. This amount, now, can be considered for ascertaining my tax liability for the said income year:
+							</p>
+						</section>
+						<section id="table" class="table">
+							<table class="table table-bordered">
+								<thead>
+									<tr style="height:50px">
+										<th scope="col">
+											Particulars
+										</th>
+										<th scope="col">
+											Current maximum limit (BDT) as per current salary structure
+										</th>
+										<th scope="col">
+											Declared Amount (BDT) to be used for Tax rebate
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row" style="padding: 20px 10px;">
+											Investment:
+										</th>
+										<td style="padding: 20px 10px;">
+											<b>
+												BDT
+												<span class="dynamic_value">
+													<t t-esc="'{0:,.0f}'.format(int(line.max_invesetment_rebate))" />
+												</span>
+											</b>
+										</td>
+										<td style="padding: 20px 10px;">
+											<b>
+												BDT ____________________________
+											</b>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</section>
+						<p>
+							Sincerely yours,
+						</p>
+						<br />
+						<br />
+						<p style="margin-bottom: 30px">
+							________________________
+							<br />
+							<b>
+								Signature of the Employee
+							</b>
+						</p>
+						<h5>
+							<span class="dynamic_value">
+								Employee Name
+							</span>
+							<span class="dynamic_value" style="margin-left:45px">
+								:
+								<t t-esc="line.employee_id.name" />
+							</span>
+						</h5>
+						<h5>
+							<span class="dynamic_value">
+								Designation
+							</span>
+							<span class="dynamic_value" style="margin-left:75px">
+								:
+								<t t-esc="line.employee_id.job_id.name" />
+							</span>
+						</h5>
+						<h5>
+							<span class="dynamic_value">
+								e-TIN No.
+							</span>
+							<span class="dynamic_value" style="margin-left:88px">
+								:
+								<t t-esc="line.employee_id.e_tin" />
+							</span>
+						</h5>
+					</div>
+					<div class="page">
+						<h4 style="text-align: center;margin-bottom: 20px;">
+							<b>
+								Annex-1
+							</b>
+						</h4>
+						<p>
+							Please note below list of eligible investments for availing the Tax Rebate:
+						</p>
+						<br />
+						<p>
+							<span style="margin-right:10px">
+								a)
+							</span>
+							Life insurance premium paid by an individual
+						</p>
+						<p>
+							<span style="margin-right:10px">
+								b)
+							</span>
+							Contribution to Benevolent Fund and Group Insurance Scheme
+						</p>
+						<p>
+							<span style="margin-right:10px">
+								c)
+							</span>
+							Contribution to Govt. recognized provident fund and other funds
+						</p>
+						<p>
+							<span style="margin-right:10px">
+								d)
+							</span>
+							Investment in stocks and Shares of listed companies
+						</p>
+						<p>
+							<span style="margin-right:10px">
+								e)
+							</span>
+							Investment in Debentures or Debenture -Stocks
+						</p>
+						<p>
+							<span style="margin-right:13px">
+								f)
+							</span>
+							Investment in Unit Certificate ,Govt. securities (Shanchay Patra) etc.
+						</p>
+						<p>
+							<span style="margin-right:10px">
+								g)
+							</span>
+							Govt. approved Deposit Pension Scheme(DPS) not exceeding Taka 60,000
+						</p>
+						<p>
+							<span style="margin-right:10px">
+								h)
+							</span>
+							Donation to a charitable Hospital
+						</p>
+						<p>
+							<span style="margin-right:14px">
+								i)
+							</span>
+							Donation to organization for the welfare of the retarded people
+						</p>
+						<p>
+							<span style="margin-right:13px">
+								j)
+							</span>
+							Donation to Zakat Fund
+						</p>
+						<p>
+							<span style="margin-right:10px">
+								k)
+							</span>
+							Donation to Ahsania Cancer Hospital
+						</p>
+						<p>
+							<span style="margin-right:13px">
+								l)
+							</span>
+							Donation to Govt. Approved Educational Institution
+						</p>
+						<p>
+							<span style="margin-right:6px">
+								m)
+							</span>
+							Any sum invested in the purchase of one computer or one laptop by an Individual assessee subject to maximum Taka 100,000 for laptop and Taka 50,000 for desktop.
+						</p>
+					</div>
+				</div>
+			</div>
+		</t>
+	</template>
+
+</odoo>

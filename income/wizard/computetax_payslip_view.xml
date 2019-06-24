@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Multi Payslip Wizard -->
+        <record id="computetax_payslip_form_wizard" model="ir.ui.view">
+            <field name="name">computetax.payslip.wizard.form.wizard</field>
+            <field name="model">computetax.payslip.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <h3>Do you sure want to compute all payslip tax?</h3>
+                    <footer>
+                        <button name="computetax_payslip" string="Confirm" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_computetax_payslip_wizard" model="ir.actions.act_window">
+            <field name="name">Compute Tax</field>
+            <field name="res_model">computetax.payslip.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="groups_id" eval="[(4, ref('hr_payroll.group_hr_payroll_manager')), (4, ref('hr_payroll.group_hr_payroll_user'))]"/>
+        </record>
+        
+        <record id="action_computetax_payslip_hr_payslip" model="ir.values">
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="name">Compute Tax</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_computetax_payslip_wizard'))"/>
+            <field name="key">action</field>
+            <field name="model">hr.payslip</field>
+        </record>
+        
+    </data>
+</odoo>

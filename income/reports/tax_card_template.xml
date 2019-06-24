@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="tax_card_id">
+        <t t-call="report.html_container">    
+            <div t-foreach="docs" t-as="line">
+                <div class="container">
+                    <div class="page">
+
+                        <style>
+                            .center {
+                                text-align: center;
+                            }
+                            .right {
+                                text-align: right;
+                            }
+                            .left {
+                                text-align: left;
+                            }
+                            .bold {
+                                font-weight: bold;
+                            }
+                            .font-normal {
+                                font-weight: normal !important;
+                            }
+                            .italic {
+                                font-style: italic;
+                            }
+                            .pad-left {
+                                padding-left: 70px !important;
+                            }
+                            .middle-align {
+                                vertical-align: middle !important;
+                            }
+                            th, td {
+                                border-color: #888 !important;
+                                border-top: 1px solid #888 !important;
+                            }
+                            .border-none th, .border-none td {
+                                border: 0 !important;
+                            }
+                            #sec-income-detail {
+                                padding-top: 1px !important;
+                            }
+                            #sec-income-detail table tr:last-child {
+                                font-weight: bold;
+                            }
+                            #note-detail {
+                                font-size: 13px;
+                                padding-top: 20px !important;
+                            }
+                            .head {
+                                width: 100%;
+                                padding: 0 10px 15px;
+                            }
+                            .head-row-th {
+                                width: 20% !important;
+                                display: inline-block;
+                                line-height: 35px;
+                            }
+                            .head-row-td {
+                                width: 28% !important;
+                                display: inline-block;
+                                line-height: 35px;
+                            }
+                        </style>
+
+                        <section id="sec-general">                                
+                            <h3 class="center bold"><t t-esc="line.employee_id.company_id.name" /></h3>
+                            <h4 class="center bold">Tax Card for (<t t-esc="line.payroll_month"/> <t t-esc="line.current_year" />)</h4>
+                            <h4 class="center bold"><t t-esc="line.employee_id.name" /></h4>
+                            <h4 class="center">Income Year <t t-esc="line.income_year" /></h4>
+                            <br />
+                            <div class="head">
+                                <t t-foreach="json.loads(line.hr_field_data)" t-as="hr_field_data">
+                                    <span class="head-row-th bold">
+                                        <t t-esc="hr_field_data['name']" />
+                                    </span>
+                                    <span class="head-row-td">  
+                                        <t t-esc="line.get_converted_val(line.employee_id.id, hr_field_data['key'])"/>
+                                    </span>
+                                </t>
+                            </div>
+                        </section>
+
+                        <section id="sec-income-detail">
+                            <h4 class="center bold">Income Details</h4>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="center">Heads of Income</th>
+                                        <th class="center"><t t-esc="line.payroll_month"/> <t t-esc="line.current_year" /></th>
+                                        <th class="center">YTD (up to previous month)</th>
+                                        <th class="center">Projected Annual</th>
+                                        <th class="center">Tax Exempt Income</th>
+                                        <th class="center">Taxable Income</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <div t-foreach="json.loads(line.salary_data)" t-as="salary_data">
+                                        <tr>
+                                            <td><t t-esc="salary_data['name']" /></td>
+                                            <td class="right">
+                                                <t t-if="int(salary_data['amount']) == 0">-</t>
+                                                <t t-else="" t-esc="'{0:,.0f}'.format(salary_data['amount'])"></t>
+                                            </td>
+                                            <td class="right">
+                                                <t t-if="int(salary_data['ytd_amount']) == 0">-</t>
+                                                <t t-else="" t-esc="'{0:,.0f}'.format(salary_data['ytd_amount'])"></t>
+                                            </td>
+                                            <td class="right">
+                                                <t t-if="int(salary_data['annual_amount']) == 0">-</t>
+                                                <t t-else="" t-esc="'{0:,.0f}'.format(salary_data['annual_amount'])"></t>
+                                            </td>
+                                            <td class="right">
+                                                <t t-if="int(salary_data['exempt_amount']) == 0">-</t>
+                                                <t t-else="" t-esc="'({0:,.0f})'.format(salary_data['exempt_amount'])"></t>
+                                            </td>
+                                            <td class="right">
+                                                <t t-if="int(salary_data['taxable_amount']) == 0">-</t>
+                                                <t t-else="" t-esc="'{0:,.0f}'.format(salary_data['taxable_amount'])"></t>
+                                            </td>
+                                        </tr>
+                                    </div>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <div t-if="line.payslip_data_len > 0">
+
+                            <t t-set="tax_rule_data" t-value="json.loads(line.tax_rule_data)" />
+                            <t t-set="tax_liability_slab_record" t-value="json.loads(line.tax_liability_slab_record)" />
+                            <t t-set="tax_rebate_slab_record" t-value="json.loads(line.tax_rebate_slab_record)" />
+                            
+                            <section id="sec-income-detail">
+                                <h4 class="center bold">Calculation of Income Tax Liability</h4>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="center">Details</th>
+                                            <th class="center">Slab</th>
+                                            <th class="center">Tax Rate</th>
+                                            <th class="center">Tax Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>On the first Tk.</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_liability_slab_record[0])"></t></td>
+                                            <td class="center"><t t-esc="tax_rule_data['tax_rate_first_slab']"></t>%</td>
+                                            <td class="right">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>On the next Tk.</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_liability_slab_record[1])"></t></td>
+                                            <td class="center"><t t-esc="tax_rule_data['tax_rate_second_slab']"></t>%</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_liability_slab_record[1]*(tax_rule_data['tax_rate_second_slab']/100.00))"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>On the next Tk.</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_liability_slab_record[2])"></t></td>
+                                            <td class="center"><t t-esc="tax_rule_data['tax_rate_third_slab']"></t>%</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_liability_slab_record[2]*(tax_rule_data['tax_rate_third_slab']/100.00))"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>On the next Tk.</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_liability_slab_record[3])"></t></td>
+                                            <td class="center"><t t-esc="tax_rule_data['tax_rate_fourth_slab']"></t>%</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_liability_slab_record[3]*(tax_rule_data['tax_rate_fourth_slab']/100.00))"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>On the next Tk.</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_liability_slab_record[4])"></t></td>
+                                            <td class="center"><t t-esc="tax_rule_data['tax_rate_fifth_slab']"></t>%</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_liability_slab_record[4]*(tax_rule_data['tax_rate_fifth_slab']/100.00))"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>On the balance Tk.</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_liability_slab_record[5])"></t></td>
+                                            <td class="center"><t t-esc="tax_rule_data['tax_rate_sixth_slab']"></t>%</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_liability_slab_record[5]*(tax_rule_data['tax_rate_sixth_slab']/100.00))"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Income Tax Liability</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(line.taxable_income_total)"></t></td>
+                                            <td></td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(line.tax_liability_total)"></t></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+
+                            <section id="sec-income-detail">
+                                <h4 class="center bold">Calculation of Allowable Investment</h4>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="center">Details</th>
+                                            <th class="center">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Maximum Investment Rebate Limit</td> <!-- [25% of Total Taxable Income] -->
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(line.taxable_income_total*(tax_rule_data['tax_rebate_investment_ratio']/100.00))"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Actual Investment Assumed</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(int(line.max_allowable_investment_limit))"></t></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+
+                            <section id="sec-income-detail">
+                                <h4 class="center bold">Calculation of Tax Credit on Investment </h4>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="center">Total Income</th>
+                                            <!-- <th class="center">Slab</th> -->
+                                            <th class="center">Amount of Credit</th>
+                                            <th class="center">Credit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- <tr>
+                                            <td>On the first Tk.</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_rebate_slab_record[0])"></t></td>
+                                            <td class="center"><t t-esc="int(tax_rule_data['tax_rebate_rate_slab_one'])"></t>%</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_rebate_slab_record[0]*(tax_rule_data['tax_rebate_rate_slab_one']/100.00))"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>On the next Tk.</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_rebate_slab_record[1])"></t></td>
+                                            <td class="center"><t t-esc="int(tax_rule_data['tax_rebate_rate_slab_two'])"></t>%</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_rebate_slab_record[1]*(tax_rule_data['tax_rebate_rate_slab_two']/100.00))"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>On the balance Tk.</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_rebate_slab_record[2])"></t></td>
+                                            <td class="center"><t t-esc="int(tax_rule_data['tax_rebate_rate_slab_three'])"></t>%</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_rebate_slab_record[2]*(tax_rule_data['tax_rebate_rate_slab_three']/100.00))"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Tax Credit</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(line.max_allowable_investment_limit)"></t></td>
+                                            <td></td>
+                                            <td class="right">(<t t-esc="'{0:,.0f}'.format(line.tax_rebate_total)"></t>)</td>
+                                        </tr> -->
+                                        <tr class="font-normal">
+                                            <td>
+                                                i. if the total income does not exceed taka <t t-esc="'{0:,.0f}'.format(tax_rule_data['taxable_income_limit'])"></t> <br /> <br /> 
+                                                ii. if the total income does not exceeds taka <t t-esc="'{0:,.0f}'.format(tax_rule_data['taxable_income_limit'])"></t> <br />
+                                            </td>
+                                            <td>
+                                                <t t-esc="int(tax_rule_data['tax_rebate_lower_rate'])"></t>% of the eligible amount <br /> <br />
+                                                <t t-esc="int(tax_rule_data['tax_rebate_higher_rate'])"></t>% of the eligible amount <br />
+                                            </td>
+                                            <td class="right middle-align bold">(<t t-esc="'{0:,.0f}'.format(line.tax_rebate_total)"></t>)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+
+                            <section id="sec-income-detail">
+                                <h4 class="center bold">Income Tax Payable</h4>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <!-- <tr>
+                                            <td class="bold">Total Income Tax Payable</td>
+                                            <td class="right bold"><t t-esc="'{0:,.0f}'.format(line.tax_payable_total)"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bold">AIT Paid/Adjustment</td>
+                                            <td class="right bold"><t t-esc="'{0:,.0f}'.format(line.tax_paid_total)"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Remaining Tax Liability</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(line.remain_tax_payable)"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Remaining Months</td>
+                                            <td class="right"><t t-esc="int(line.remain_month)"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tax Deduction for <t t-esc="line.payroll_month"/> <t t-esc="line.current_year" /></td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(line.monthly_tax_payable)"></t></td>
+                                        </tr> -->
+
+                                        <t t-set="tax_payable_income_total" t-value="line.tax_payable_total"> </t>
+                                        <t t-set="ytd_total" t-value="line.ytd_income_tax+line.ytd_advance_income_tax"> </t>
+                                        <t t-set="current_advance_income_tax" t-value="line.current_advance_income_tax"> </t>
+
+                                        <tr>
+                                            <td class="bold">Total Income Tax Payable</td>
+                                            <td></td>
+                                            <td class="right bold"><t t-esc="'{0:,.0f}'.format(tax_payable_income_total)"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="italic">Tax Paid Till Date:</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pad-left">Monthly Tax Deduction - YTD</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(line.ytd_income_tax)"></t></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pad-left">One-off Tax Deduction - YTD</td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(line.ytd_advance_income_tax)"></t></td>
+                                            <td class="right bold"><t t-esc="'{0:,.0f}'.format(ytd_total)"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Remaining Tax Liability</td>
+                                            <td></td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(tax_payable_income_total-ytd_total)"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Remaining Months</td>
+                                            <td></td>
+                                            <td class="right"><t t-esc="int(line.remain_month)"></t></td>
+                                        </tr>
+                                         <tr>
+                                            <td>One-off Tax Deduction for <t t-esc="line.payroll_month"/> <t t-esc="line.current_year" /></td>
+                                            <td></td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(current_advance_income_tax)"></t></td>
+                                        </tr>
+                                         <tr>
+                                            <td>Monthly Tax Deduction for <t t-esc="line.payroll_month"/> <t t-esc="line.current_year" /></td>
+                                            <td></td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(line.monthly_tax_payable)"></t></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Tax Deduction for <t t-esc="line.payroll_month"/> <t t-esc="line.current_year" /></td>
+                                            <td></td>
+                                            <td class="right"><t t-esc="'{0:,.0f}'.format(current_advance_income_tax+line.monthly_tax_payable)"></t></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+
+                        </div>
+
+                        <section id="note-detail">
+                            <p>
+                                <b><u>Notes</u></b>
+                                <br />- All amounts are in <b>Bangladesh Taka</b> (BDT/Tk.).
+                                <br />- <b>House Rent Allowance</b> is exempt up to Tk. 25,000 per month or 50% of Basic Salary, whichever is lower.
+                                <br />- <b>Conveyance Allowance</b> of up to Tk. 30,000 per annum is exempt from tax.
+                                <br />- <b>Medical Allowance</b> of up to Tk. 120,000 per annum or 10% of Basic Salary, whichever is lower is exempt from tax.
+                                <br />- If an individual enjoys <b>Rent Free Accommodation</b> from employer, actual rent paid by employer or 25% of Basic Salary whichever is lower is added to total income and taxed.
+                                <br />- If an individual enjoys <b>Conveyance</b> for personal or private use from employer, 5% of Basic Salary or Tk. 60,000 whichever is higher is added to total income and taxed.
+                                <br />- <b>Maximum Allowable Investment Rebate Limit</b> is the lower of Actual Investment, 25% of Total Taxable Income or Tk. 15,000,000.
+                            </p>
+                        </section>
+                       
+                    </div>
+                </div>
+            </div> 
+        </t>
+    </template>
+
+</odoo>

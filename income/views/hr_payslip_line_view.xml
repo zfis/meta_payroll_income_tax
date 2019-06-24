@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="inherit_view_hr_payslip_line_tree">
+            <field name="name">hr.payslip.line.tree</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_line_tree"/>
+            <field name="arch" type="xml">            
+                <xpath expr="//tree/field[@name='employee_id']" position="after">
+                    <field name="sf_id_2" invisible="1" />
+                    <field name="work_location_type" invisible="1" />
+                    <field name="sf_id" />
+                    <field name="work_location_type_2" />
+                </xpath>
+                <xpath expr="//tree/field[@name='name']" position="after">
+                    <field name="date_from" />
+                    <field name="date_to" />
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

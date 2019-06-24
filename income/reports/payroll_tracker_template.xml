@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<template id="payroll_tracker_id">
+		<t t-call="report.html_container">
+            <t t-call="report.external_layout">
+                <div t-foreach="companies" t-as="companies">
+                    <div t-foreach="companies['data']" t-as="company">
+                        <div class="container">
+                            <div class="page">
+                                <style>
+                                </style>
+                                <div class="container" style="font-family: Tahoma;">
+                                    <section id="table" class="table">
+                                        <h3 class="text-center" style="font-weight:bold;margin-bottom:10px;">
+                                            <t t-esc="company['company_name']" />
+                                        </h3>
+                                        <h4 class="text-center" style="font-weight:bold;margin-bottom:30px;">
+                                            Payroll Tracker for  
+                                            <t t-esc="company['payroll_month']" /> 
+                                            <t t-esc="company['payroll_year']" />
+                                        </h4>
+                                        <table class="table table-bordered" style="width: auto;">	
+                                            <thead>
+                                                <tr>
+                                                    <th scope="row">
+                                                        Name of Employee
+                                                    </th>
+                                                    <th scope="row">
+                                                        Status
+                                                    </th>
+                                                    <div t-foreach="company['rule_data']" t-as="rule_data">
+                                                        <div t-foreach="rule_data['data']" t-as="rule">
+                                                            <th colspan="2" style="text-align: center;">
+                                                                <t t-esc="rule['title']" />
+                                                            </th>
+                                                        </div>
+                                                    </div>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <div t-foreach="company['payslip_data']" t-as="payslip_data">
+                                                    <div t-foreach="payslip_data['data']" t-as="payslip">
+                                                        <tr>
+                                                            <th scope="row">
+                                                                <t t-esc="payslip['emp_name']" />
+                                                            </th>
+                                                            <th scope="row">
+                                                                <t t-esc="payslip['state']" />
+                                                            </th>
+                                                            <div t-foreach="company['rule_data']" t-as="rule_data">
+                                                                <div t-foreach="rule_data['data']" t-as="rule">
+                                                                    <td colspan="2" style="text-align: right;">
+                                                                        <t t-if="rule['code'] in payslip['json_data']">
+                                                                            <t t-esc="'{0:,.0f}'.format(int(payslip['json_data'][rule['code']]))" /> 
+                                                                        </t>
+                                                                    </td>
+                                                                </div>
+                                                            </div>
+                                                        </tr>
+                                                    </div>
+                                                </div>
+                                            </tbody>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="row">
+                                                        Total
+                                                    </th> 
+                                                    <th scope="row">
+                                                        
+                                                    </th> 
+                                                    <div t-foreach="company['rule_data']" t-as="rule_data">
+                                                        <div t-foreach="rule_data['data']" t-as="rule">
+                                                            <th colspan="2" style="text-align: right;">
+                                                                <div t-foreach="company['payslip_summary_data']" t-as="payslip_summary_data">
+                                                                    <div t-foreach="payslip_summary_data['data']" t-as="payslip_summary">
+                                                                        <t t-if="rule['code'] == payslip_summary['code']">
+                                                                            <t t-esc="'{0:,.0f}'.format(int(payslip_summary['total']))" /> 
+                                                                        </t>
+                                                                    </div>
+                                                                </div>
+                                                            </th>
+                                                        </div>
+                                                    </div>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+		</t>
+	</template>
+</odoo>

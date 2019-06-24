@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="payroll_tracker_report_tree" model="ir.ui.view">
+        <field name="name">payroll.tracker.report.tree</field>
+        <field name="model">payroll.tracker.report</field>
+        <field name="arch" type="xml">
+            <tree string="Payroll Tracker" create="false" delete="false" default_order='employee_id'>
+                <field name="id" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="employee_id" invisible="1"/>
+                <field name="employee_name"/>
+                <field name="date"/>
+                <field name="basic_salary" sum="Basic Salary"/>
+                <field name="house_rent_allowance" sum="HRA"/>
+                <field name="conveynace_allowance" sum="Conv All."/>
+                <field name="medical_allowance" sum="Med All."/>
+                <field name="other_allowance"  sum="Other All."/>
+                <field name="total_gross_pay"  sum="Gross Pay"/>
+                <field name="less_withholding_tax"  sum="TDS" invisible="1"/>
+                <field name="less_other_deductions"  sum="TDS"/>
+                <field name="total_net_pay"  sum="Net Pay"/>
+                <field name="state"  invisible="1"/>
+                <field name="company_name" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_payroll_tracker_report" model="ir.actions.act_window">
+        <field name="name">Payroll Tracker Report</field>
+        <field name="res_model">payroll.tracker.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <!-- <field name="search_view_id" ref='view_payroll_tracker_report_filter'/>
+        <field name='domain'>[]</field>
+        <field name="context">
+            {
+                'group_by':[]
+            }
+        </field> -->
+        <!-- 'search_default_group_company_name': 1, -->
+    </record>
+
+    <record id="view_payroll_tracker_report_filter" model="ir.ui.view">
+        <field name="name">payroll.tracker.report.select</field>
+        <field name="model">payroll.tracker.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Payroll Tracker Report">
+                <!-- <field name="name" string="Payslips" filter_domain="['|',('name','ilike',self),('number','ilike',self)]"/>      -->
+                <field name="company_name"/>
+                <field name="employee_name"/>
+                <field name="date"/>
+                <filter name="draft" string="Draft" domain="[('state','=','draft')]" help="Draft Slip"/>
+                <filter name="done" string="Done" domain="[('state','=','done')]" help="Done Slip"/>
+                <group expand="0" string="Group By">
+                    <filter string="Company" name="group_company_name" context="{'group_by':'company_name'}"/>
+                    <filter string="Employee" name="group_employee_name" context="{'group_by':'employee_name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- <menuitem name="Payroll Tracker" action="action_payroll_tracker_report" id="menu_payroll_tracker_report" parent="menu_hr_payroll_reports" sequence="301" /> -->
+</odoo>

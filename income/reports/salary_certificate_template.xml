@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="salary_report_id">
+        <t t-call="report.html_container">
+            <div t-foreach="docs" t-as="line">
+                <t t-call="report.external_layout">
+                    <div class="container">
+                        <div class="page">
+                            <style>.heading_right-side{
+                            float: right;
+                            margin-right: 190px;
+                            }
+                            .heading_left-side{
+                                float: left;
+                            }
+                            .dynamic_value {
+                                color: red
+                            }
+                            .intro {
+                                margin-bottom: 100px
+                            }
+                            .table_bg {
+                                background: #000;
+                                color: #fff
+                            }</style>
+                            <section id="table" class="table">
+                                <h4 class="text-center" style="font-weight:bold;margin-bottom:20px;margin-top:20px;">Income Tax Deduction Certificate</h4>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Employee Name</th>
+                                            <td colspan="2">
+                                                <t t-esc="line.employee_id.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Employer Name</th>
+                                            <td colspan="2">
+                                                <t t-esc="line.employee_id.company_id.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">e-TIN Number</th>
+                                            <td colspan="2">
+                                                <t t-esc="line.employee_id.e_tin" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Designation</th>
+                                            <td colspan="2">
+                                                <t t-esc="line.employee_id.job_id.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Date of Joining</th>
+                                            <td colspan="2">
+                                                <t t-esc="datetime.datetime.strptime(line.employee_id.joining_date, '%Y-%m-%d').strftime('%d-%m-%Y')" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Income Year</th>
+                                            <td colspan="2">
+                                                <t t-esc="line.income_year" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Assesment Year</th>
+                                            <td colspan="2">
+                                                <t t-esc="line.assessment_year" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+                            <br />
+                            <p>
+                                This is to certify that our above-mentioned employee has been working with
+                                <span>
+                                    <i>
+                                        <t t-esc="line.employee_id.company_id.name" />
+                                    </i>
+                                </span>
+                                since
+                                <span>
+                                    <i>
+                                        <t t-esc="datetime.datetime.strptime(line.employee_id.joining_date, '%Y-%m-%d').strftime('%d-%m-%Y')" />
+                                    </i>
+                                </span>
+                                and has been paid the following amount as salary and allowances for the above income year.
+                            </p>
+                            <br />
+                            <section id="table2" class="table2">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="row">Details</th>
+                                            <th colspan="2" style="text-align: right;">Amount (BDT)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <div t-foreach="json.loads(line.salary_data)" t-as="salary_data">
+                                            <tr>
+                                                <th scope="row">
+                                                    <t t-esc="salary_data['name']" />
+                                                </th>
+                                                <td colspan="2" style="text-align: right;">
+                                                    <t t-esc="'{0:,.0f}'.format(int(salary_data['amount']))" />
+                                                </td>
+                                            </tr>
+                                        </div>
+                                    </tbody>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Total Income</th>
+                                            <th colspan="2" style="text-align: right;">
+                                                <t t-esc="'{0:,.0f}'.format(int(line.income_total))" />
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </section>
+                            <br />
+                            <p>
+                                We further certify that since her total income exceeds the minimum tax slab, a tax of BDT
+                                <span>
+                                    <b>
+                                        <i>
+                                            <t t-esc="'{0:,.0f}'.format(int(line.challan_tds_total))" />
+                                        </i>
+                                    </b>
+                                </span>
+                                was deducted and deposited through the below challan(s):
+                            </p>
+                            <br />
+                            <section>
+                                <table class="table table-bordered">
+                                    <thead class="table_bg">
+                                        <tr style="height: 40px;">
+                                            <th scope="col">CHALLAN NO</th>
+                                            <th scope="col">DATE OF DEPOSIT</th>
+                                            <th scope="col">MONTH</th>
+                                            <th scope="col">AMOUNT OF TAX DEDUCTED</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <div t-foreach="json.loads(line.challan_data)" t-as="challan_data">
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="challan_data['number']" />
+                                                </td>
+                                                <td>
+                                                    <t t-esc="challan_data['submission_date']" />
+                                                </td>
+                                                <td>
+                                                    <t t-esc="challan_data['payroll_month']" />
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <t t-esc="'{0:,.0f}'.format(int(challan_data['tds_amount']))" />
+                                                </td>
+                                            </tr>
+                                        </div>
+                                        <tr style="height: 25px;">
+                                            <th scope="row">Total</th>
+                                            <th />
+                                            <th />
+                                            <th style="text-align: right;">
+                                                <t t-esc="'{0:,.0f}'.format(int(line.challan_tds_total))" />
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+                            <br />
+                            <p style="margin-bottom: 40px">
+                                _____________________
+                                <br />
+                                <b>Authorized Signatory</b>
+                                <br />
+                                <span>
+                                    <i>
+                                        <t t-esc="line.employee_id.company_id.name" />
+                                    </i>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

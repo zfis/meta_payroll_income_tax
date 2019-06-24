@@ -1,0 +1,15 @@
+
+.navbar-static-top {
+    display: none;
+}
+
+main {
+    background-image: url(/income/static/src/img/bg-cover.png);
+    /* padding-bottom: 2%; */
+    background-size: cover;
+    display: block !important;
+}
+
+.oe_website_login_container {
+    display: none;
+}

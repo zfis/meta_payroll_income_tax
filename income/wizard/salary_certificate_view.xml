@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="view_salary_certificate" model="ir.ui.view">
+            <field name="name">salary.certificate.data.form</field>
+            <field name="model">salary.certificate.data</field>
+            <field name="arch" type="xml">
+                <form string="Salary Certificate">
+                    <group col="4" colspan="6">
+                        <field name="fiscal_year"/>
+                        <newline/>
+                        <field name="emp" invisible="True"/>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_salary_certificate" model="ir.actions.act_window">
+            <field name="name">Income Tax Deduction Certificate</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">salary.certificate.data</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="salary_certificate_value" model="ir.values">
+            <field name="model_id" ref="hr.model_hr_employee" />
+            <field name="name">Income Tax Deduction Certificate</field>
+            <field name="key2">client_print_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_salary_certificate'))" />
+            <field name="key">action</field>
+            <field name="model">hr.employee</field>
+        </record>
+
+</odoo>

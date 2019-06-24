@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <report
+            id="investment_alw_report"
+            string="Investment Allowance Declaration"
+            model="investment.alw"
+            report_type="qweb-pdf"
+            name="income.report_id"
+            file="income.report_id"
+            menu="False"/>
+
+        <report
+            id="salary_certificate_report"
+            string="Salary Certificate"
+            model="salary.certificate"
+            report_type="qweb-pdf"
+            name="income.salary_report_id"
+            file="income.salary_report_id"
+            menu="False"/>
+
+        <report
+            id="tax_card_report"
+            string="Income Tax Card"
+            model="tax.card"
+            report_type="qweb-pdf"
+            name="income.tax_card_id"
+            file="income.tax_card_id"
+            menu="False"/>
+
+        <report 
+            id="action_report_challan" 
+            string="Challan Report"
+            model="tax.challan" 
+            report_type="qweb-pdf"
+            name="income.report_challan" 
+            file="income.report_challan"/>
+
+        <report
+            id="payroll_tracker_report"
+            string="Payroll Tracker"
+            model="payroll.tracker"
+            report_type="qweb-html"
+            name="income.payroll_tracker_id"
+            file="income.payroll_tracker_id"
+            menu="False"/>
+
+</odoo>

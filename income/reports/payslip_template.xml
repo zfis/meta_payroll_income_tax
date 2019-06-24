@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="inherit_report_payslip" inherit_id="hr_payroll.report_payslip">
+		<!-- <t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="report.external_layout"> -->
+		<xpath expr="//div[@class='page']" position="replace">
+			<div class="page" style="padding: 12px;padding-top: 0px;">
+				<style>
+					table {
+					border-collapse: collapse !important;
+					}
+					
+					table, th, td {
+					border: 1px solid #fff !important;
+					}
+					
+					body, html *
+					{
+					font-size: 16px !important;
+					font-family: Tahoma !important;
+					}
+					
+					.payslip-box tr {
+					line-height: 30px !important;
+					}
+
+					<!-- body.o_in_iframe {
+						margin-top: 0px!important!important;
+					} -->
+				</style>
+				<table class="table table-condensed table-bordered" border="0" style="margin-bottom: 5px;">
+					<tr>
+						<td id="name" colspan="4">
+							<h1 style="text-align:center;font-weight:bold;font-size:22px !important;" t-field="o.company_id" />
+							<h5 style="font-weight:bold;text-align:center;margin-bottom: 20px;" t-field="o.name" />
+						</td>
+					</tr>
+					<!--
+					<tr>
+					<td colspan="4">
+					<p style="text-align:right">
+					(Employee’s Copy)
+					</p>
+					</td>
+					</tr>
+					-->
+					<tr>
+						<td>
+							<strong>
+								Name
+							</strong>
+						</td>
+						<td>
+							<span t-field="o.employee_id" />
+						</td>
+						<td>
+							<strong>
+								e-Tin No.
+							</strong>
+						</td>
+						<td>
+							<span t-field="o.employee_id.e_tin" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<strong>
+								Employee Code
+							</strong>
+						</td>
+						<td>
+							<span t-field="o.employee_id.employee_code" />
+						</td>
+						<td>
+							<strong>
+								Designation
+							</strong>
+						</td>
+						<td>
+							<span t-field="o.employee_id.job_id" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<strong>
+								Date of Joining
+							</strong>
+						</td>
+						<td>
+							<span t-field="o.employee_id.joining_date" />
+						</td>
+						<td>
+							<strong>
+								Bank A/C No.
+							</strong>
+						</td>
+						<td>
+							<span t-field="o.employee_id.bank_account_id" />
+						</td>
+					</tr>
+				</table>
+				<div class="container" style="border:3px solid #1E487C;padding:15px;line-height:14px !important">
+					<table>
+						<thead>
+							<tr>
+								<div class="col-xs-10 pull-left">
+									<th>
+										<span style="text-align:left !important;border-bottom:2px solid #90A4AE !important;width:100px !important;">
+											Pay &amp; Allowances:
+										</span>
+									</th>
+								</div>
+								<div class="col-xs-2 pull-right">
+									<th>
+										<span style="margin-left:100px !important;border-bottom:2px solid #90A4AE !important;">
+											Taka
+										</span>
+									</th>
+								</div>
+								<tr style="color:#ffffff !important">
+									<th colspan="4">
+										ha !!
+									</th>
+								</tr>
+							</tr>
+						</thead>
+						<tbody class="payslip-box">
+							<p style="display:none !important;visibility: hidden !important; ">
+								<t t-set="i" t-value="1" style="display:none !important;visibility: hidden !important; " />
+							</p>
+							<p style="display:none !important;visibility: hidden !important; ">
+								<t t-set="j" t-value="1" style="display:none !important;visibility: hidden !important; " />
+							</p>
+							<!-- Pay and Allowance start -->
+							<tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+								<td style="width: 100%;">
+									<t t-if="not line.category_id.code in ['DED','ITAX','ODED','PTAX','GDED','GROSS','NET'] and line.total &gt; 0">
+										<span t-field="line.name" />
+									</t>
+									<t t-if="line.category_id.code=='GROSS'">
+										<b><span t-field="line.name" /></b>
+									</t>
+								</td>
+								<td style="text-align:right;">
+									<t t-if="not line.category_id.code in ['DED','ITAX','ODED','PTAX','GDED','GROSS','NET'] and line.total &gt; 0">
+										<span t-esc="'{0:,.0f}'.format(int(line.total))" />
+									</t>
+									<t t-if="line.category_id.code=='GROSS'">
+										<div style="">
+											<p style="border-bottom:1px solid #90A4AE !important;margin-bottom:0px !important;"></p>
+											<b><p style="margin-bottom:0 !important;font-weight:bold !important" t-esc="'{0:,.0f}'.format(int(line.total))" /></b>
+											<p></p>
+										</div>
+									</t>
+								</td>
+							</tr>
+							<!-- Deduction start -->
+							<tr style="padding-top: 40px;">
+								<div class="col-xs-12 pull-left">
+									<th>
+										<span style="text-align:left !important;border-bottom:2px solid #90A4AE !important;width:100px !important;">
+											Deductions
+										</span>
+									</th>
+								</div>
+							</tr>
+							<tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+								<td style="width: 100%;">
+									<t t-if="line.category_id.code in ['DED','ODED','ITAX']">
+										<span t-field="line.name" />
+									</t>
+									<t t-if="line.category_id.code=='GDED'">
+										<b><span t-field="line.name" /></b>
+									</t>
+								</td>
+								<td style="text-align:right;">
+									<t t-if="line.category_id.code in ['DED','ODED','ITAX']">
+										<span t-esc="'{0:,.0f}'.format(int(line.amount))" />
+									</t>
+									<t t-if="line.category_id.code=='GDED'">
+										<div style="">
+											<p style="border-top:1px solid #90A4AE !important;margin-bottom:0px !important;"></p>
+											<b><p style="margin-bottom:0 !important;font-weight:bold !important" t-esc="'{0:,.0f}'.format(int(line.amount))" /></b>
+											<p></p>
+										</div>
+									</t>
+								</td>	
+							</tr>
+							<!-- Net Payable start -->
+							<tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+								<td style="width: 100%;">
+									<t t-if="line.category_id.code=='NET'">
+										<b><span t-field="line.name" /></b>
+									</t>
+								</td>
+								<td style="text-align:right;">
+									<t t-if="line.category_id.code=='NET'">
+										<div style="">
+											<p style="border-bottom:1px solid #90A4AE !important;margin-bottom:0px !important;"></p>
+											<b><p style="margin-bottom:0 !important;font-weight:bold !important" t-esc="'{0:,.0f}'.format(int(line.amount))" /></b>
+											<p></p>
+										</div>
+									</t>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<br />
+				<tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+					<t t-if="line.code=='NET'">
+						<tr>
+							<t t-set="amount_in_word" t-value="o.run_sql(line.total)" />
+							<th style="margin-top:40px !important" colspan="4">
+								<b>
+									In words:
+								</b>
+								Taka <span t-esc="amount_in_word" style="padding-right:3px;" /> Only
+							</th>
+						</tr>
+					</t>
+				</tr>
+				<div style="margin-top:100px;">
+					<h5 style="color:#1E487C;text-align:center;font-weight:bold;">
+						**Computer generated pay slip does not require signature**
+					</h5>
+				</div>
+			</div>
+		</xpath>
+				<!-- </t>
+			</t>
+		</t> -->
+	</template>
+</odoo>

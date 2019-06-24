@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_field_tree" model="ir.ui.view">
+        <field name="name">hr.field.tree</field>
+        <field name="model">hr.field</field>
+        <field name="arch" type="xml">
+            <tree string="HR Field">
+                <field name="key" />
+                <field name="name" />   
+                <field name="report_name" /> 
+                <field name="company_id" invisible="1"/>
+                <field name="sequence" widget="handle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_field_form" model="ir.ui.view">
+        <field name="name">hr.field.form</field>
+        <field name="model">hr.field</field>
+        <field name="arch" type="xml">
+            <form string="HR Field">
+                <sheet>
+                    <group col="2">
+                        <field name="key" />    
+                        <field name="name" />   
+                        <field name="report_name" />    
+                        <field name="company_id" invisible="1"/>
+                        <field name="sequence" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="act_hr_field_view" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="name">HR Fields</field>
+        <field name="res_model">hr.field</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="target">current</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="menu_hr_field" 
+        name="HR Fields" 
+        parent="hr_payroll.menu_hr_payroll_root" 
+        sequence="102" 
+        action="act_hr_field_view" />
+
+</odoo>

@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="Main_nav" name="Income Tax Bangladesh" />
+    <record id="income_tax_tree" model="ir.ui.view">
+        <field name="name">income.tax.tree</field>
+        <field name="model">income.tax</field>
+        <field name="arch" type="xml">
+            <tree string="Tax Setting">
+                <field name="income_tax_year" />
+                <field name="assessment_year"/>
+                <field name="min_tax_amount"/>
+            </tree>
+        </field>
+    </record>
+    <record id="income_tax_form" model="ir.ui.view">
+        <field name="name">income.tax.form</field>
+        <field name="model">income.tax</field>
+        <field name="arch" type="xml">
+            <form string="Tax Caculator">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Income Tax and Tax Rebate Rules</h1>
+                    </div>
+                    <group>
+                        <field name="income_tax_year" placeholder="2010-2011" />
+                        <field name="assessment_year" placeholder="2010-2011" />
+                        <field name="min_tax_amount" />
+                    </group>
+                    <notebook>
+                        <page name="tax_exemption" string="Tax Exemption">
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-2 pull-left" style="width:150px !important;padding:0 !important">
+                                    <b>House Rent Exemption</b>
+                                </div>
+                                <div class="col-xs-1" style="padding:0!important;padding-right: 5px !important">
+                                    <field name="house_rent_exemption"/>
+                                </div>
+                                <div class="col-xs-2" style="width:125px !important;padding:0 !important">                                     % of Basic Or BDT                                 </div>
+                                <div class="col-xs-1" style="padding:0 !important">
+                                    <field name="house_rent_exemption_fix"/>
+                                </div>
+                                <div class="col-xs-6 pull-right" tyle="padding:0 !important">
+                                    per month, whicever is lower
+                                </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-2 pull-left" style="width:150px !important;padding:0!important">
+                                    <b>Medical Exemption</b>
+                                </div>
+                                <div class="col-xs-1" style="padding:0!important;padding-right: 5px !important">
+                                    <field name="medical_exemption"/>
+                                </div>
+                                <div class="col-xs-2" style="width:125px !important;padding:0 !important">                                    % of Basic OR BDT                                </div>
+                                <div class="col-xs-1" style="padding:0 !important;padding-right: 5px !important">
+                                    <field name="medical_exemption_fix"/>
+                                </div>
+                                <div class="col-xs-6 pull-right" style="">                                  per annum, whicever is lower                                </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-2 pull-left" style="width:150px !important;padding:0!important">
+                                    <b>Conveyance Exmption</b>
+                                </div>
+                                <div class="col-xs-1" style="padding:0!important;padding-right: 5px !important">
+                                    <field name="conveyance_exemption"/>
+                                </div>
+
+                                <div class="col-xs-9" style="width:350px !important;padding:0 !important">
+                                    Tk. per annum or 100% of conveyance, whichever is lower
+                                </div>
+                                <!-- <div class="col-xs-1" style="padding:0 !important">
+                                </div>
+                                <div class="col-xs-6 pull-right" style=""></div> -->
+                                
+                            </div>
+                        </page>
+                        <page name="tax_liability" string="Tax Liability">
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-2 pull-left" style="padding:0!important">
+                                    <b>On the First</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <field name="slab_1"/>
+                                </div>
+                                <div class="col-xs-2">                                     Tk., Tax Rate                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rate_first_slab"/>
+                                </div>
+                                <div class="col-xs-5 pull-right">                                  %                                 </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-2 pull-left" style="padding:0!important">
+                                    <b>Female/Senior</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <field name="slab_1_female_or_senior"/>
+                                </div>
+                                <div class="col-xs-2">    
+                                    <b>Disabled</b>                             
+                                </div>
+                                <div class="col-xs-2">
+                                    <field name="slab_1_disabled"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                  <div class="col-xs-2 pull-left" style="padding:0!important">
+                                    <b>Freedom Fighter</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <field name="slab_1_freedom_fighter"/>
+                                </div>
+                                <div class="col-xs-2">    
+                                    <b>Disable Parent/Legal Gurdian</b>                             
+                                </div>
+                                <div class="col-xs-2">
+                                    <field name="slab_1_disabled_parent_or_legal_guardian"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px; padding-top: 20px !important; padding:0 !important">
+                                <div class="col-xs-2 pull-left" style="padding:0!important">
+                                    <b>On the Next</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <field name="slab_2"/>
+                                </div>
+                                <div class="col-xs-2">                                      Tk., Tax Rate                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rate_second_slab"/>
+                                </div>
+                                <div class="col-xs-5 pull-right">                                  %                                 </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-2 pull-left" style="padding:0!important">
+                                    <b>On the Next</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <field name="slab_3"/>
+                                </div>
+                                <div class="col-xs-2">                                      Tk., Tax Rate                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rate_third_slab"/>
+                                </div>
+                                <div class="col-xs-5 pull-right">                                  %                                </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important" >
+                                <div class="col-xs-2 pull-left" style="padding:0!important">
+                                    <b>On the Next</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <field name="slab_4"/>
+                                </div>
+                                <div class="col-xs-2">                                    Tk., Tax Rate                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rate_fourth_slab"/>
+                                </div>
+                                <div class="col-xs-5 pull-right">                                  %                                </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-2 pull-left" style="padding:0!important">
+                                    <b>On the Next</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <field name="slab_5"/>
+                                </div>
+                                <div class="col-xs-2">                                    Tk., Tax Rate                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rate_fifth_slab"/>
+                                </div>
+                                <div class="col-xs-5 pull-right">                                  %                                </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-2 pull-left" style="padding:0!important">
+                                    <b>On the Balance</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <field name="slab_6"/>
+                                </div>
+                                <div class="col-xs-2">                                     Tk., Tax Rate                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rate_sixth_slab"/>
+                                </div>
+                                <div class="col-xs-5 pull-right">                                  %                                </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-6 pull-left" style="padding:0!important">
+                                    <b>Tax rate for Non Resident (%)</b>
+                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rate_non_resident"/>
+                                </div>
+                                <div class="col-xs-5 pull-right">                                  %                                </div>    
+                            </div>
+                        </page>
+                        <page name="tax_rebate" string="Tax Rebate">
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-3 pull-left" style="padding:0!important">
+                                    <b>Max Investment Allowed</b>
+                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rebate_investment_ratio"/>
+                                </div>
+                                <div class="col-xs-2" style="padding:0!important">                                     % of Income Or BDT                                </div>
+                                <div class="col-xs-2">
+                                    <field name="tax_rebate_investment_fix"/>
+                                </div>
+                                <div class="col-xs-4 pull-right">                                  whichever is lower                                </div>
+                            </div>
+                            <!-- <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-3 pull-left" style="padding:0!important">
+                                    <b>Tax Rebate First Slab for</b>
+                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rebate_slab_one"/>
+                                </div>
+                                <div class="col-xs-2" style="padding:0!important">                                     Tk., Rebate Rate                                </div>
+                                <div class="col-xs-2">
+                                    <field name="tax_rebate_rate_slab_one"/>
+                                </div>
+                                <div class="col-xs-4 pull-right">                                  %                                 </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-3 pull-left" style="padding:0!important">
+                                    <b>Tax Rebate Next Slab for</b>
+                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rebate_slab_two"/>
+                                </div>
+                                <div class="col-xs-2" style="padding:0!important">                                      Tk., Rebate Rate                                </div>
+                                <div class="col-xs-2">
+                                    <field name="tax_rebate_rate_slab_two"/>
+                                </div>
+                                <div class="col-xs-4 pull-right">                                  %                                 </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-3 pull-left" style="padding:0!important">
+                                    <b>Tax Rebate Balance Slab for</b>
+                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rebate_slab_three"/>
+                                </div>
+                                <div class="col-xs-2" style="padding:0!important">                                      Tk., Rebate Rate                                </div>
+                                <div class="col-xs-2">
+                                    <field name="tax_rebate_rate_slab_three"/>
+                                </div>
+                                <div class="col-xs-4 pull-right">                                  %                                </div>
+                            </div> -->
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-3 pull-left" style="padding:0!important">
+                                    <b>Taxable Income Limit (Tk.)</b>
+                                </div>
+                                <div class="col-xs-3">
+                                    <field name="taxable_income_limit"/>
+                                </div>              
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-3 pull-left" style="padding:0!important">
+                                    <b>Tax Rebate Lower Rate (%)</b>
+                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rebate_lower_rate"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top:15px;padding:0 !important">
+                                <div class="col-xs-3 pull-left" style="padding:0!important">
+                                    <b>Tax Rebate Higher Rate (%)</b>
+                                </div>
+                                <div class="col-xs-1">
+                                    <field name="tax_rebate_higher_rate"/>
+                                </div>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="act_open_first_view" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="name">Tax Rules</field>
+        <field name="res_model">income.tax</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="target">current</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <!-- <field name="flags">{'form': {'action_buttons': True, 'options': {'clear_breadcrumbs':True } }</field> -->
+        <!-- <field name="search_view_id" ref="ir.ui.view" /> -->
+    </record>
+    <!-- Actions window for menu end -->
+    <menuitem id="side_nav_menu" name="Tax Rules" parent="Main_nav" sequence="1" action="act_open_first_view" />
+</odoo>
