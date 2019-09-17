@@ -75,7 +75,7 @@ Tax Payable System
     'external_dependencies': {'python': ['xlwt']},
     'demo': [],
     'installable': True,
-    'price': 999,
+    'price': 2999,
     'currency': 'EUR',
     'auto_install': False,
     'application': True,
